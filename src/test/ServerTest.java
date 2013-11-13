@@ -11,12 +11,15 @@ public class ServerTest {
     @Test
     public void initsWithAPortAndDirectory() throws IOException {
         Server server = new Server(5000, "/test");
+        server.serverSocket.close();
         assertEquals(server.port, 5000);
         assertEquals(server.directory, "/test");
     }
 
+    @Test
     public void createsServerSocket() throws IOException {
         Server server = new Server(5000, "/test");
-        assertEquals(server.serverSocket, ServerSocket.class);
+        server.serverSocket.close();
+        assertEquals(server.serverSocket.getClass(), ServerSocket.class);
     }
 }

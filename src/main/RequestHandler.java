@@ -3,7 +3,7 @@ import java.io.*;
 
 public class RequestHandler implements Runnable {
 
-    private Socket socket;
+    public Socket socket;
 
     public RequestHandler(Socket socket){
         this.socket = socket;
@@ -25,7 +25,7 @@ public class RequestHandler implements Runnable {
         }
     }
 
-    private static String getStringFromInputStream(InputStream input) throws IOException {
+    public static String getStringFromInputStream(InputStream input) throws IOException {
         StringBuffer output = new StringBuffer();
         byte[] bytes = new byte[4096];
         output.append(new String(bytes, 0, input.read(bytes)));
