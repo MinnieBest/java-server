@@ -2,10 +2,14 @@ import java.net.*;
 import java.io.*;
 
 public class Server {
-    private ServerSocket serverSocket;
+    public ServerSocket serverSocket;
+    public String directory;
+    public int port;
 
-    public Server(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
+    public Server(int port, String directory) throws IOException {
+        this.port = port;
+        this.serverSocket = new ServerSocket(port);
+        this.directory = directory;
     }
 
     public void start() {
@@ -22,11 +26,8 @@ public class Server {
     }
 
     public static void main(String [] args) throws IOException {
-        int port = 5000;
-        if (args.length > 0) {
-            port = Integer.parseInt(new OptionParser(args).getFlagValue("-p"));
-        }
-        Server server = new Server(port);
+        Arguments arguments = new Arguments(args);
+        Server server = new Server(arguments.port(), arguments.directory());
         server.start();
     }
 }
