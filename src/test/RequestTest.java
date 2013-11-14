@@ -19,6 +19,8 @@ public class RequestTest {
                                 "MyAuthorization: 12345password\n\n" +
                                 "MyParam=Testing";
 
+    private String optionsString = "OPTIONS / HTTP/1.1\n\n";
+
     private Request request = new Request(testString, "/public");
 
     @Test
@@ -29,6 +31,12 @@ public class RequestTest {
     @Test
     public void parsesMethod() {
         assertEquals("GET", request.getMethod());
+    }
+
+    @Test
+    public void parsesOptionsMethod() {
+        Request request = new Request(optionsString, "/public");
+        assertEquals("OPTIONS", request.getMethod());
     }
 
     @Test
