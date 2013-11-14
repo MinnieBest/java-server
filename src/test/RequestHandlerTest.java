@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class RequestHandlerTest {
 
     @Test
-    public void returnsResponse() {
+    public void returnsResponseTuple() {
 
     }
 }

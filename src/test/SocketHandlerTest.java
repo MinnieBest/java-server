@@ -12,6 +12,7 @@ public class SocketHandlerTest {
     public void initsWithASocketAndDirectory() {
         SocketHandler handler = new SocketHandler(new Socket(), "/public");
         assertEquals(handler.socket.getClass(), Socket.class);
+        assertEquals(handler.directory, "/public");
     }
 
     @Test

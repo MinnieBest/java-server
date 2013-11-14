@@ -51,7 +51,7 @@ public class Request {
     }
 
     public String getRoute() {
-        return searchInput("(\\/\\S*)");
+        return searchInput("(\\/[^\\s\\?]*)");
     }
 
     public String getHttpv() {
@@ -93,6 +93,17 @@ public class Request {
     }
 
     public Map<String, String> getParams() {
+        if (getQueryString().isEmpty()) {
+            return getFormParams();
+        }
+        else {
+            Map<String, String> params = getFormParams();
+            params.putAll(getQueryString());
+            return params;
+        }
+    }
+
+    public Map<String, String> getFormParams() {
         Map<String, String> params = new HashMap<String, String>();
         String[] splitInput = inputString.split("\n\n");
         if (splitInput.length == 2) {
@@ -103,5 +114,15 @@ public class Request {
             }
         }
         return params;
+    }
+
+    public Map<String, String> getQueryString() {
+        Map<String, String> queryString = new HashMap<String, String>();
+        String[] queries = searchInput("(?<=\\?)(\\S+)").split("&");
+        for (String query : queries) {
+            String[] queryPair = query.split("=");
+            queryString.put(queryPair[0], queryPair[queryPair.length - 1]);
+        }
+        return queryString;
     }
 }

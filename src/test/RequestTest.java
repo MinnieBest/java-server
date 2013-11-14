@@ -8,7 +8,7 @@ import java.io.*;
 @RunWith(JUnit4.class)
 public class RequestTest {
 
-    private String testString = "GET / HTTP/1.1\n" +
+    private String testString = "GET /testing?name=Kevin&color=blue HTTP/1.1\n" +
                                 "Host: localhost:5000\n" +
                                 "Connection: keep-alive\n" +
                                 "Cache-Control: max-age=0\n" +
@@ -33,7 +33,18 @@ public class RequestTest {
 
     @Test
     public void parsesRoute() {
-        assertEquals("/", request.getRoute());
+        assertEquals("/testing", request.getRoute());
+    }
+
+    @Test
+    public void parsesQueryString() {
+        assertEquals("Kevin", request.params.get("name"));
+        assertEquals("blue", request.params.get("color"));
+    }
+
+    @Test
+    public void parsesParams() {
+        assertEquals("Testing", request.params.get("MyParam"));
     }
 
     @Test
@@ -75,10 +86,5 @@ public class RequestTest {
     @Test
     public void parsesHeaders() {
         assertEquals("12345password", request.headers.get("MyAuthorization"));
-    }
-
-    @Test
-    public void parsesParams() {
-        assertEquals("Testing", request.params.get("MyParam"));
     }
 }
