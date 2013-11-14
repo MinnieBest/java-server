@@ -1,5 +1,7 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Response {
 
@@ -14,9 +16,9 @@ public class Response {
         }
 
     public int status;
-    public String[] headers;
+    public ArrayList<String> headers;
 
-    public Response(int status, String[] headers) {
+    public Response(int status, ArrayList<String> headers) {
         this.status = status;
         this.headers = headers;
     }

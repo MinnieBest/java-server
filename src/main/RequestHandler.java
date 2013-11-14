@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class RequestHandler {
 
     public Request request;
@@ -8,7 +11,7 @@ public class RequestHandler {
 
     public Response call() {
         int code = getCode();
-        String[] headers = getHeaders();
+        ArrayList<String> headers = getHeaders();
         return new Response(code, headers);
     }
 
@@ -16,12 +19,12 @@ public class RequestHandler {
         return 200;
     }
 
-    public String[] getHeaders() {
+    public ArrayList<String> getHeaders() {
         if ("OPTIONS".equals(request.method) || "/method_options".equals(request.route)) {
-            return new String[] {"Allow: GET,HEAD,POST,OPTIONS,PUT"};
+            return new ArrayList<String>(Arrays.asList("Allow: GET,HEAD,POST,OPTIONS,PUT"));
         }
         else {
-            return new String[]{""};
+            return new ArrayList<String>(Arrays.asList(""));
         }
     }
 }

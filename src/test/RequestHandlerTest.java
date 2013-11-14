@@ -21,12 +21,12 @@ public class RequestHandlerTest {
     @Test
     public void returnsOptionsForOptionsRequest() {
         RequestHandler handler = new RequestHandler(optionsRequest);
-        assertThat(handler.call().headers[0], containsString("GET,HEAD,POST,OPTIONS,PUT"));
+        assertThat(handler.call().headers.get(0), containsString("GET,HEAD,POST,OPTIONS,PUT"));
     }
 
     @Test
     public void returnsOptionsForOptionsRoute() {
         RequestHandler handler = new RequestHandler(optionsRequestRoute);
-        assertThat(handler.call().headers[0], containsString("GET,HEAD,POST,OPTIONS,PUT"));
+        assertThat(handler.call().headers.get(0), containsString("GET,HEAD,POST,OPTIONS,PUT"));
     }
 }

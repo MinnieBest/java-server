@@ -2,18 +2,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @RunWith(JUnit4.class)
 public class TextResponseTest {
 
     private TextResponse response = new TextResponse(404,
-        new String[] {"Connection: keep-alive", "Content-Length: 10"},
-        "<html><h1>Not Found</h1></html>");
+        new ArrayList<String>(Arrays.asList("Connection: keep-alive", "Content-Length: 10")), "<html><h1>Not Found</h1></html>");
 
     @Test
     public void initsWithStatusHeadersBody() {
         assertEquals(404, response.status);
-        assertEquals("Content-Length: 10", response.headers[1]);
+        assertEquals("Content-Length: 10", response.headers.get(1));
         assertEquals("<html><h1>Not Found</h1></html>", response.body);
     }
 
