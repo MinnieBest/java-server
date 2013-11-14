@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Response {
 
-    private static final Map<Integer, String> STATUS_CODES = new HashMap<Integer, String>();
+    public static final Map<Integer, String> STATUS_CODES = new HashMap<Integer, String>();
         static {
             STATUS_CODES.put(200, "OK");
             STATUS_CODES.put(206, "Partial Content");
