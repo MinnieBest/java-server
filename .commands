@@ -1,3 +1,5 @@
+javac -d bin/main src/main/* && javac -d bin/test src/test/* && java org.junit.runner.JUnitCore AllTests
+
 compile main
 
 javac -d bin/main src/main/*

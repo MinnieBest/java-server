@@ -10,9 +10,7 @@ public class RequestHandler {
     }
 
     public Response call() {
-        int code = getCode();
-        ArrayList<String> headers = getHeaders();
-        return new Response(code, headers);
+        return new FileResponse(200, getHeaders(), "test.txt");
     }
 
     public int getCode() {
@@ -24,7 +22,7 @@ public class RequestHandler {
             return new ArrayList<String>(Arrays.asList("Allow: GET,HEAD,POST,OPTIONS,PUT"));
         }
         else {
-            return new ArrayList<String>(Arrays.asList(""));
+            return new ArrayList<String>(Arrays.asList("Connection: keep-alive"));
         }
     }
 }

@@ -15,7 +15,7 @@ public class RequestHandlerTest {
     @Test
     public void returnsResponseObject() {
         RequestHandler handler = new RequestHandler(simpleRequest);
-        assertEquals(handler.call().getClass(), Response.class);
+        assertEquals(true, handler.call() instanceof Response);
     }
 
     @Test

@@ -19,6 +19,7 @@ public class SocketHandler implements Runnable {
             System.out.println(request.inputString);
             Response response = new RequestHandler(request).call();
             output.write(response.output());
+            output.flush();
             input.close();
             output.close();
             socket.close();
