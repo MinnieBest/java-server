@@ -8,7 +8,9 @@ import org.junit.runners.Suite;
   SocketHandlerTest.class,
   RequestTest.class,
   RequestHandlerTest.class,
-  ResponseTest.class
+  ResponseTest.class,
+  FileResponseTest.class,
+  TextResponseTest.class
 })
 
 public class AllTests {

@@ -8,20 +8,20 @@ public class RequestHandler {
 
     public Response call() {
         int code = getCode();
-        String headers = getHeaders();
-        return new Response(code, headers, "<html><body><h1>Hello World</h1></body></html>");
+        String[] headers = getHeaders();
+        return new Response(code, headers);
     }
 
     public int getCode() {
         return 200;
     }
 
-    public String getHeaders() {
+    public String[] getHeaders() {
         if ("OPTIONS".equals(request.method) || "/method_options".equals(request.route)) {
-            return "Allow: GET,HEAD,POST,OPTIONS,PUT";
+            return new String[] {"Allow: GET,HEAD,POST,OPTIONS,PUT"};
         }
         else {
-            return "";
+            return new String[]{""};
         }
     }
 }
