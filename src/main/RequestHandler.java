@@ -1,34 +1,27 @@
-import java.net.*;
-import java.io.*;
+public class RequestHandler {
 
-public class RequestHandler implements Runnable {
+    public Request request;
 
-    public Socket socket;
-
-    public RequestHandler(Socket socket){
-        this.socket = socket;
+    public RequestHandler(Request request) {
+        this.request = request;
     }
 
-    public void run() {
-        try {
-            InputStream input = socket.getInputStream();
-            OutputStream output = socket.getOutputStream();
-            String request = getStringFromInputStream(input);
-            System.out.print(request);
-            // Pass request to app, returns response array
-            output.write(("HTTP/1.1 200 OK\n\n<html><body><h1>Hello World</h1></body></html>").getBytes());
-            input.close();
-            output.close();
-            socket.close();
-        } catch(IOException e) {
-            e.printStackTrace();
+    public Response call() {
+        int code = getCode();
+        String headers = getHeaders();
+        return new Response(code, headers, "<html><body><h1>Hello World</h1></body></html>");
+    }
+
+    public int getCode() {
+        return 200;
+    }
+
+    public String getHeaders() {
+        if ("OPTIONS".equals(request.method) || "/method_options".equals(request.route)) {
+            return "Allow: GET,HEAD,POST,OPTIONS,PUT";
         }
-    }
-
-    public static String getStringFromInputStream(InputStream input) throws IOException {
-        StringBuffer output = new StringBuffer();
-        byte[] bytes = new byte[4096];
-        output.append(new String(bytes, 0, input.read(bytes)));
-        return output.toString();
+        else {
+            return "";
+        }
     }
 }

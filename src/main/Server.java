@@ -17,7 +17,7 @@ public class Server {
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Thread(new RequestHandler(socket)).start();
+                new Thread(new SocketHandler(socket, directory)).start();
             } catch(IOException e) {
                 e.printStackTrace();
                 break;

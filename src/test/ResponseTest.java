@@ -4,7 +4,7 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class RequestHandlerTest {
+public class ResponseTest {
 
     @Test
     public void returnsResponse() {

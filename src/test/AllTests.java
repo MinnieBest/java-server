@@ -5,7 +5,10 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
   ServerTest.class,
   ArgumentsTest.class,
-  RequestHandlerTest.class
+  SocketHandlerTest.class,
+  RequestTest.class,
+  RequestHandlerTest.class,
+  ResponseTest.class
 })
 
 public class AllTests {
