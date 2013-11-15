@@ -8,7 +8,7 @@ public class Server {
 
     public Server(int port) throws IOException {
         this.port = port;
-        this.serverSocket = new ServerSocket(port);
+        this.serverSocket = makeServerSocket();
     }
 
     public void start() {
@@ -16,11 +16,19 @@ public class Server {
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Thread(new SocketHandler(socket)).start();
+                new Thread(makeSocketHandler(socket)).start();
             } catch(IOException e) {
                 e.printStackTrace();
                 break;
             }
         }
+    }
+
+    public ServerSocket makeServerSocket() throws IOException {
+        return new ServerSocket(port);
+    }
+
+    public SocketHandler makeSocketHandler(Socket socket) throws IOException {
+        return new SocketHandler(socket);
     }
 }

@@ -4,9 +4,11 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
 import java.io.*;
 import java.net.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
 public class ServerTest {
+
 
     @Test
     public void initsWithAPort() throws IOException {
@@ -20,5 +22,12 @@ public class ServerTest {
         Server server = new Server(5000);
         server.serverSocket.close();
         assertEquals(server.serverSocket.getClass(), ServerSocket.class);
+    }
+
+    @Test
+    public void makesSocketHander() throws IOException {
+        Server server = new Server(5000);
+        server.serverSocket.close();
+        assertNotNull(server.makeSocketHandler(new Socket()));
     }
 }
