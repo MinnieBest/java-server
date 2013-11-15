@@ -25,7 +25,7 @@ public class ServerTest {
     }
 
     @Test
-    public void makesSocketHander() throws IOException {
+    public void createsSocketHander() throws IOException {
         Server server = new Server(5000);
         server.serverSocket.close();
         assertNotNull(server.makeSocketHandler(new Socket()));
