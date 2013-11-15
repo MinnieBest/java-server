@@ -15,8 +15,8 @@ public class Request {
     public String[] accept;
     public String userAgent;
     public String[] cookie;
-    public Map headers;
-    public Map params;
+    public HashMap<String, String> headers;
+    public HashMap<String, String> params;
 
     public Request(String input) {
         this.inputString = input;
@@ -57,32 +57,32 @@ public class Request {
     }
 
     public String getHost() {
-        return searchInput("((?<=Host: )([^\\n]+))");
+        return searchInput("((?<=Host: )([^\\r]+))").trim();
     }
 
     public String getConnection() {
-        return searchInput("((?<=Connection: )([^\\n]+))");
+        return searchInput("((?<=Connection: )([^\\r]+))");
     }
 
     public String getCacheControl() {
-        return searchInput("((?<=Cache-Control: )([^\\n]+))");
+        return searchInput("((?<=Cache-Control: )([^\\r]+))");
     }
 
     public String[] getAccept() {
-        return searchInput("((?<=Accept: )([^\\n]+))").split(",");
+        return searchInput("((?<=Accept: )([^\\r]+))").split(",");
     }
 
     public String getUserAgent() {
-        return searchInput("((?<=User-Agent: )([^\\n]+))");
+        return searchInput("((?<=User-Agent: )([^\\r]+))");
     }
 
     public String[] getCookie() {
-        return searchInput("((?<=Cookie: )([^\\n]+))").split("; ");
+        return searchInput("((?<=Cookie: )([^\\r]+))").split("; ");
     }
 
-    public Map<String, String> getHeaders() {
-        Map<String, String> headers = new HashMap<String, String>();
-        String[] splitInput = inputString.split("\n");
+    public HashMap<String, String> getHeaders() {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        String[] splitInput = inputString.split("\r\n");
         for (String header : splitInput) {
             String[] headerPair = header.split("(:)( ?)");
             headers.put(headerPair[0], headerPair[headerPair.length - 1]);
@@ -90,20 +90,20 @@ public class Request {
         return headers;
     }
 
-    public Map<String, String> getParams() {
+    public HashMap<String, String> getParams() {
         if (getQueryString().isEmpty()) {
             return getFormParams();
         }
         else {
-            Map<String, String> params = getFormParams();
+            HashMap<String, String> params = getFormParams();
             params.putAll(getQueryString());
             return params;
         }
     }
 
-    public Map<String, String> getFormParams() {
-        Map<String, String> params = new HashMap<String, String>();
-        String[] splitInput = inputString.split("\n\n");
+    public HashMap<String, String> getFormParams() {
+        HashMap<String, String> params = new HashMap<String, String>();
+        String[] splitInput = inputString.split("\r\n\r\n");
         if (splitInput.length == 2) {
             String[] rawParams = splitInput[1].split(" ");
             for (String param : rawParams) {
@@ -114,8 +114,8 @@ public class Request {
         return params;
     }
 
-    public Map<String, String> getQueryString() {
-        Map<String, String> queryString = new HashMap<String, String>();
+    public HashMap<String, String> getQueryString() {
+        HashMap<String, String> queryString = new HashMap<String, String>();
         String[] queries = searchInput("(?<=\\?)(\\S+)").split("&");
         for (String query : queries) {
             String[] queryPair = query.split("=");

@@ -8,15 +8,15 @@ import java.io.*;
 @RunWith(JUnit4.class)
 public class RequestTest {
 
-    private String testString = "GET /testing?name=Kevin&color=blue HTTP/1.1\n" +
-                                "Host: localhost:5000\n" +
-                                "Connection: keep-alive\n" +
-                                "Cache-Control: max-age=0\n" +
-                                "Accept: text/html,application/xml;q=0.9,image/webp\n"+
-                                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5)\n" +
-                                "Accept-Encoding: gzip,deflate,sdch Accept-Language: en-US,en;q=0.8\n" +
-                                "Cookie: textwrapon=false; wysiwyg=textarea\n" +
-                                "MyAuthorization: 12345password\n\n" +
+    private String testString = "GET /testing?name=Kevin&color=blue HTTP/1.1\r\n" +
+                                "Host: localhost:5000\r\n" +
+                                "Connection: keep-alive\r\n" +
+                                "Cache-Control: max-age=0\r\n" +
+                                "Accept: text/html,application/xml;q=0.9,image/webp\r\n"+
+                                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5)\r\n" +
+                                "Accept-Encoding: gzip,deflate,sdch Accept-Language: en-US,en;q=0.8\r\n" +
+                                "Cookie: textwrapon=false; wysiwyg=textarea\r\n" +
+                                "MyAuthorization: 12345password\r\n\r\n" +
                                 "MyParam=Testing";
 
     private String optionsString = "OPTIONS / HTTP/1.1\n\n";
