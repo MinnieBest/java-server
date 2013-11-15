@@ -11,8 +11,12 @@ public class ResponseTest {
     private Response response = new Response(200, new ArrayList<String>(Arrays.asList("Accept: application/json")));
 
     @Test
-    public void initsWithStatusAndHeaders() {
+    public void initsWithStatus() {
         assertEquals(response.status, 200);
+    }
+
+    @Test
+    public void initsWithHeaders() {
         assertEquals("Accept: application/json", response.headers.get(0));
     }
 

@@ -12,9 +12,17 @@ public class TextResponseTest {
         new ArrayList<String>(Arrays.asList("Connection: keep-alive", "Content-Length: 10")), "<html><h1>Not Found</h1></html>");
 
     @Test
-    public void initsWithStatusHeadersBody() {
+    public void initsWithStatus() {
         assertEquals(404, response.status);
+    }
+
+    @Test
+    public void initsWithHeaders() {
         assertEquals("Content-Length: 10", response.headers.get(1));
+    }
+
+    @Test
+    public void initsWithBody() {
         assertEquals("<html><h1>Not Found</h1></html>", response.body);
     }
 

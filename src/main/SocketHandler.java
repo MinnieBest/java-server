@@ -14,7 +14,7 @@ public class SocketHandler implements Runnable {
         try {
             InputStream input = socket.getInputStream();
             OutputStream output = socket.getOutputStream();
-            Request request = new Request(inputString(input));
+            Request request = makeRequest(inputString(input));
             System.out.println(request.inputString);
             Response response = app.call(request);
             output.write(response.output());
@@ -25,6 +25,10 @@ public class SocketHandler implements Runnable {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Request makeRequest(String inputString) {
+        return new Request(inputString);
     }
 
     public static String inputString(InputStream input) throws IOException {

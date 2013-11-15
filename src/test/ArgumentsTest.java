@@ -6,6 +6,18 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class ArgumentsTest {
 
+    private Arguments arguments = new Arguments(new String[] {"-myFlag", "myValue"});
+
+    @Test
+    public void returnsCorrectIndex() {
+        assertEquals(1, arguments.getFlagIndex("-myFlag"));
+    }
+
+    @Test
+    public void returnsCorrecValue() {
+        assertEquals("myValue", arguments.getFlagValue("-myFlag"));
+    }
+
     @Test
     public void returnsFlaggedPort() {
         Arguments arguments = new Arguments(new String[] {"-p", "9393"});

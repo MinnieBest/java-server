@@ -15,9 +15,17 @@ public class FileResponseTest {
     FileResponse docResponse = new FileResponse(200, new ArrayList<String>(), "Testing.doc");
 
     @Test
-    public void initsWithStatusHeadersPath() {
+    public void initsWithStatus() {
         assertEquals(200, response.status);
+    }
+
+    @Test
+    public void initsWithHeaders() {
         assertEquals("Connection: keep-alive", response.headers.get(0));
+    }
+
+    @Test
+    public void initsWithPath() {
         assertEquals("test.txt", response.filepath);
     }
 
