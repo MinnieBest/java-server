@@ -4,22 +4,16 @@ import java.util.Arrays;
 public class RequestHandler implements Callable {
 
     public String baseDirectory;
-    public Request request;
 
     public RequestHandler(String directory) {
         this.baseDirectory = directory;
     }
 
     public Response call(Request request) {
-        this.request = request;
-        return new FileResponse(200, getHeaders(), "test.txt");
+        return new FileResponse(200, getHeaders(request), "test.txt");
     }
 
-    public int getCode() {
-        return 200;
-    }
-
-    public ArrayList<String> getHeaders() {
+    public ArrayList<String> getHeaders(Request request) {
         if ("OPTIONS".equals(request.method) || "/method_options".equals(request.route)) {
             return new ArrayList<String>(Arrays.asList("Allow: GET,HEAD,POST,OPTIONS,PUT"));
         }
