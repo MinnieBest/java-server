@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RequestHandler {
+public class RequestHandler implements Callable {
 
+    public String baseDirectory;
     public Request request;
 
-    public RequestHandler(Request request) {
-        this.request = request;
+    public RequestHandler(String directory) {
+        this.baseDirectory = directory;
     }
 
-    public Response call() {
+    public Response call(Request request) {
+        this.request = request;
         return new FileResponse(200, getHeaders(), "test.txt");
     }
 

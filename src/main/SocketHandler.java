@@ -4,20 +4,19 @@ import java.io.*;
 public class SocketHandler implements Runnable {
 
     public Socket socket;
-    public String directory;
+    public static Callable app;
 
-    public SocketHandler(Socket socket, String directory){
+    public SocketHandler(Socket socket) {
         this.socket = socket;
-        this.directory = directory;
     }
 
     public void run() {
         try {
             InputStream input = socket.getInputStream();
             OutputStream output = socket.getOutputStream();
-            Request request = new Request(inputString(input), directory);
+            Request request = new Request(inputString(input));
             System.out.println(request.inputString);
-            Response response = new RequestHandler(request).call();
+            Response response = app.call(request);
             output.write(response.output());
             output.flush();
             input.close();
@@ -27,7 +26,6 @@ public class SocketHandler implements Runnable {
             e.printStackTrace();
         }
     }
-
 
     public static String inputString(InputStream input) throws IOException {
         StringBuffer output = new StringBuffer();

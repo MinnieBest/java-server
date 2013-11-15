@@ -9,16 +9,15 @@ import java.net.*;
 public class ServerTest {
 
     @Test
-    public void initsWithAPortAndDirectory() throws IOException {
-        Server server = new Server(5000, "/test");
+    public void initsWithAPort() throws IOException {
+        Server server = new Server(5000);
         server.serverSocket.close();
         assertEquals(server.port, 5000);
-        assertEquals(server.directory, "/test");
     }
 
     @Test
     public void createsServerSocket() throws IOException {
-        Server server = new Server(5000, "/test");
+        Server server = new Server(5000);
         server.serverSocket.close();
         assertEquals(server.serverSocket.getClass(), ServerSocket.class);
     }

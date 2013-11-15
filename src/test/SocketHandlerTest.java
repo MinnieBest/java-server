@@ -9,10 +9,9 @@ import java.io.*;
 public class SocketHandlerTest {
 
     @Test
-    public void initsWithASocketAndDirectory() {
-        SocketHandler handler = new SocketHandler(new Socket(), "/public");
+    public void initsWithASocket() {
+        SocketHandler handler = new SocketHandler(new Socket());
         assertEquals(handler.socket.getClass(), Socket.class);
-        assertEquals(handler.directory, "/public");
     }
 
     @Test

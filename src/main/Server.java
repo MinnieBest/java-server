@@ -2,14 +2,13 @@ import java.net.*;
 import java.io.*;
 
 public class Server {
-    public ServerSocket serverSocket;
-    public String directory;
-    public int port;
 
-    public Server(int port, String directory) throws IOException {
+    public int port;
+    public ServerSocket serverSocket;
+
+    public Server(int port) throws IOException {
         this.port = port;
         this.serverSocket = new ServerSocket(port);
-        this.directory = directory;
     }
 
     public void start() {
@@ -17,17 +16,11 @@ public class Server {
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Thread(new SocketHandler(socket, directory)).start();
+                new Thread(new SocketHandler(socket)).start();
             } catch(IOException e) {
                 e.printStackTrace();
                 break;
             }
         }
-    }
-
-    public static void main(String [] args) throws IOException {
-        Arguments arguments = new Arguments(args);
-        Server server = new Server(arguments.port(), arguments.directory());
-        server.start();
     }
 }

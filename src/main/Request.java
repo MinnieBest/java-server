@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class Request {
 
     public String inputString;
-    public String baseDirectory;
     public String method;
     public String route;
     public String httpv;
@@ -19,9 +18,8 @@ public class Request {
     public Map headers;
     public Map params;
 
-    public Request(String input, String directory) {
+    public Request(String input) {
         this.inputString = input;
-        this.baseDirectory = directory;
         this.method = getMethod();
         this.route = getRoute();
         this.httpv = getHttpv();

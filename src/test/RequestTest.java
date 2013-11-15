@@ -21,12 +21,7 @@ public class RequestTest {
 
     private String optionsString = "OPTIONS / HTTP/1.1\n\n";
 
-    private Request request = new Request(testString, "/public");
-
-    @Test
-    public void storesBaseDirectory() {
-        assertEquals("/public", request.baseDirectory);
-    }
+    private Request request = new Request(testString);
 
     @Test
     public void parsesMethod() {
@@ -35,7 +30,7 @@ public class RequestTest {
 
     @Test
     public void parsesOptionsMethod() {
-        Request request = new Request(optionsString, "/public");
+        Request request = new Request(optionsString);
         assertEquals("OPTIONS", request.getMethod());
     }
 
