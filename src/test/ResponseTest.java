@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
@@ -8,7 +9,12 @@ import java.util.Arrays;
 @RunWith(JUnit4.class)
 public class ResponseTest {
 
-    private Response response = new Response(200, new ArrayList<String>(Arrays.asList("Accept: application/json")));
+    private Response response = new Response(200);
+
+    @Before
+    public void init() {
+        response.addHeader("Accept", "application/json");
+    }
 
     @Test
     public void initsWithStatus() {
@@ -16,8 +22,8 @@ public class ResponseTest {
     }
 
     @Test
-    public void initsWithHeaders() {
-        assertEquals("Accept: application/json", response.headers.get(0));
+    public void acceptsHeaders() {
+        assertEquals("application/json", response.headers.get("Accept"));
     }
 
     @Test

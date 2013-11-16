@@ -2,8 +2,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.activation.MimetypesFileTypeMap;
 
 public class FileResponse extends Response {
@@ -11,8 +9,8 @@ public class FileResponse extends Response {
     public String filepath;
     public File file;
 
-    public FileResponse(int status, ArrayList<String> headers, String filepath) {
-        super(status, headers);
+    public FileResponse(int status, String filepath) {
+        super(status);
         this.filepath = filepath;
         this.file = new File(filepath);
         addheaders();
@@ -30,9 +28,9 @@ public class FileResponse extends Response {
     }
 
     public void addheaders() {
-        headers.add("Content-Length: " + file.length());
-        headers.add("Content-Type: " + getMimeType());
-        headers.add("Content-Disposition: attachment");
+        headers.put("Content-Length", String.valueOf(file.length()));
+        headers.put("Content-Type", getMimeType());
+        headers.put("Content-Disposition", "attachment");
     }
 
     public String getMimeType() {

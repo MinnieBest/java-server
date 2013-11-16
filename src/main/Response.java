@@ -1,7 +1,5 @@
 import java.util.Map;
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Response {
 
@@ -16,11 +14,15 @@ public class Response {
         }
 
     public int status;
-    public ArrayList<String> headers;
+    public HashMap<String, String> headers;
 
-    public Response(int status, ArrayList<String> headers) {
+    public Response(int status) {
         this.status = status;
-        this.headers = headers;
+        this.headers = new HashMap<String, String>();
+    }
+
+    public void addHeader(String header, String content) {
+        headers.put(header, content);
     }
 
     public byte[] output() {
@@ -41,8 +43,8 @@ public class Response {
 
     public String buildHeaders() {
         StringBuilder builder = new StringBuilder();
-        for(String header : headers) {
-            builder.append(header);
+        for(String header : headers.keySet()) {
+            builder.append(header + ": " + headers.get(header));
             builder.append("\n");
         }
         return builder.toString();

@@ -9,19 +9,13 @@ import java.io.*;
 @RunWith(JUnit4.class)
 public class FileResponseTest {
 
-    FileResponse response = new FileResponse(200, new ArrayList<String>(Arrays.asList("Connection: keep-alive")),
-        "test.txt");
-    FileResponse zipResponse = new FileResponse(200, new ArrayList<String>(), "test.text.zip");
-    FileResponse docResponse = new FileResponse(200, new ArrayList<String>(), "Testing.doc");
+    FileResponse response = new FileResponse(200, "test.txt");
+    FileResponse zipResponse = new FileResponse(200, "test.text.zip");
+    FileResponse docResponse = new FileResponse(200, "Testing.doc");
 
     @Test
     public void initsWithStatus() {
         assertEquals(200, response.status);
-    }
-
-    @Test
-    public void initsWithHeaders() {
-        assertEquals("Connection: keep-alive", response.headers.get(0));
     }
 
     @Test
@@ -36,7 +30,7 @@ public class FileResponseTest {
 
     @Test
     public void addsContentLengthHeader() {
-        assertEquals("Content-Length: 27", response.headers.get(1));
+        assertEquals("27", response.headers.get("Content-Length"));
     }
 
     @Test
@@ -48,12 +42,12 @@ public class FileResponseTest {
 
     @Test
     public void addsContentTypeHeader() {
-        assertEquals("Content-Type: text/plain", response.headers.get(2));
+        assertEquals("text/plain", response.headers.get("Content-Type"));
     }
 
     @Test
     public void addsAttachmentHeader() {
-        assertEquals("Content-Disposition: attachment", response.headers.get(3));
+        assertEquals("attachment", response.headers.get("Content-Disposition"));
     }
 
     @Test

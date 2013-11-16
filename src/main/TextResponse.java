@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class TextResponse extends Response {
 
     public String body;
 
-    public TextResponse(int status, ArrayList<String> headers, String body) {
-        super(status, headers);
+    public TextResponse(int status, String body) {
+        super(status);
         this.body = body;
     }
 
