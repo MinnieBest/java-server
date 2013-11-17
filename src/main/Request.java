@@ -17,6 +17,7 @@ public class Request {
     public String[] accept;
     public String userAgent;
     public String[] cookie;
+    public HashMap<String, Integer> range;
     public HashMap<String, String> headers;
     public HashMap<String, String> params;
 
@@ -32,6 +33,7 @@ public class Request {
         this.accept = getAccept();
         this.userAgent = getUserAgent();
         this.cookie = getCookie();
+        this.range = getRange();
         this.headers = getHeaders();
         this.params = getParams();
     }
@@ -92,6 +94,18 @@ public class Request {
 
     public String[] getCookie() {
         return searchInput("((?<=Cookie: )([^\\r]+))").split("; ");
+    }
+
+    public HashMap<String, Integer> getRange() {
+        HashMap<String, Integer> rangeMap = new HashMap<String, Integer>();
+        String[] range = searchInput("((?<=\\nRange: bytes=)([^\\r]+))").split("-");
+        if (range.length == 2) {
+            rangeMap.put("Start", Integer.parseInt(range[0]));
+            rangeMap.put("Stop", Integer.parseInt(range[1]));
+            int length = rangeMap.get("Stop") - rangeMap.get("Start") + 1;
+            rangeMap.put("Length", length);
+        }
+        return rangeMap;
     }
 
     public HashMap<String, String> getHeaders() {

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class FileControllerTest {
 
     public Request fullRequest = new Request("GET /test.txt HTTP/1.1");
-    public Request partialRequest = new Request("GET /test.txt HTTP/1.1\r\nRange: bytes0-4\r\n");
+    public Request partialRequest = new Request("GET /test.txt HTTP/1.1\r\nRange: bytes=0-4\r\n");
     public FileController controller = new FileController("resources");
 
     @Test

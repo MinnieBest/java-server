@@ -7,12 +7,13 @@ public class FileController extends Controller {
     }
 
     public Response get() {
-        if (request.headers.get("Range") == null) {
+        if (request.range.isEmpty()) {
             return new FileResponse(200, baseDirectory + request.route);
         }
         else {
-            Response response = new FileResponse(206, baseDirectory + request.route);
-            response.addHeader("Content-Length", "5");
+            FileResponse response = new FileResponse(206, baseDirectory + request.route);
+            response.addHeader("Content-Length", request.range.get("Length").toString());
+            response.setRange(request.range.get("Start"), request.range.get("Stop"));
             return response;
         }
     }

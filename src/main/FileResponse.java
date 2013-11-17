@@ -9,6 +9,8 @@ public class FileResponse extends Response {
 
     public String filepath;
     public File file;
+    public int start;
+    public int stop;
 
     public FileResponse(int status, String filepath) {
         super(status);
@@ -48,11 +50,16 @@ public class FileResponse extends Response {
     public byte[] readFile() throws IOException {
         Path path = Paths.get(filepath);
         if (status == 206) {
-            addHeader("Content-Range", "bytes 0-4/" + file.length());
-            return Arrays.copyOfRange(Files.readAllBytes(path), 0, 4);
+            addHeader("Content-Range", "bytes " + start + "-" + stop + "/" + file.length());
+            return Arrays.copyOfRange(Files.readAllBytes(path), start, stop);
         }
         else {
             return Files.readAllBytes(path);
         }
+    }
+
+    public void setRange(int start, int stop) {
+        this.start = start;
+        this.stop = stop;
     }
 }
