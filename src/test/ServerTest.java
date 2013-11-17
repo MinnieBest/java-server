@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 @RunWith(JUnit4.class)
 public class ServerTest {
 
-
     @Test
     public void initsWithAPort() throws IOException {
         Server server = new Server(5000);
