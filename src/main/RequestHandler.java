@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.net.URLDecoder;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.DatatypeConverter;
@@ -172,7 +171,7 @@ public class RequestHandler implements Callable {
     public Response parameterResponse() {
         String body = "";
         for(String key : request.params.keySet()) {
-            String value = URLDecoder.decode(request.params.get(key));
+            String value = request.params.get(key);
             String data = key + " = " + value + " ";
             body = body + data;
         }

@@ -2,6 +2,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Map;
 import java.util.HashMap;
+import java.net.URLDecoder;
 
 public class Request {
 
@@ -51,7 +52,8 @@ public class Request {
     }
 
     public String getRoute() {
-        return searchInput("(\\/[^\\s\\?]*)");
+        String route = searchInput("(\\/[^\\s\\?]*)");
+        return URLDecoder.decode(route);
     }
 
     public HashMap<String, String> getAuth() {
@@ -131,7 +133,9 @@ public class Request {
         String[] queries = searchInput("(?<=\\?)(\\S+)").split("&");
         for (String query : queries) {
             String[] queryPair = query.split("=");
-            queryString.put(queryPair[0], queryPair[queryPair.length - 1]);
+            String key = URLDecoder.decode(queryPair[0]);
+            String value = URLDecoder.decode(queryPair[queryPair.length - 1]);
+            queryString.put(key, value);
         }
         return queryString;
     }
