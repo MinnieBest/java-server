@@ -1,5 +1,7 @@
 import java.net.*;
 import java.io.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
 
@@ -13,10 +15,11 @@ public class Server {
 
     public void start() {
         System.out.println("Listening on port " + serverSocket.getLocalPort());
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Thread(makeSocketHandler(socket)).start();
+                executor.execute(newThread(socket));
             } catch(IOException e) {
                 e.printStackTrace();
                 break;
@@ -30,5 +33,9 @@ public class Server {
 
     public SocketHandler makeSocketHandler(Socket socket) throws IOException {
         return new SocketHandler(socket);
+    }
+
+    public Runnable newThread(Socket socket) throws IOException {
+        return new Thread(makeSocketHandler(socket));
     }
 }
