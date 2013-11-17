@@ -8,6 +8,7 @@ public class Request {
     public String inputString;
     public String method;
     public String route;
+    public HashMap<String, String> authorization;
     public String httpv;
     public String host;
     public String connection;
@@ -22,6 +23,7 @@ public class Request {
         this.inputString = input;
         this.method = getMethod();
         this.route = getRoute();
+        this.authorization = getAuth();
         this.httpv = getHttpv();
         this.host = getHost();
         this.connection = getConnection();
@@ -50,6 +52,16 @@ public class Request {
 
     public String getRoute() {
         return searchInput("(\\/[^\\s\\?]*)");
+    }
+
+    public HashMap<String, String> getAuth() {
+        HashMap<String, String> protocol = new HashMap<String, String>();
+        String auth = searchInput("((?<=\\nAuthorization: )([^\\r]+))");
+        if (!auth.equals("")) {
+            String[] pair = auth.split(" ");
+            protocol.put(pair[0], pair[1]);
+        }
+        return protocol;
     }
 
     public String getHttpv() {

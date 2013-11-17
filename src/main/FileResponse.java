@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.util.Arrays;
 import javax.activation.MimetypesFileTypeMap;
 
 public class FileResponse extends Response {
@@ -13,7 +14,7 @@ public class FileResponse extends Response {
         super(status);
         this.filepath = filepath;
         this.file = new File(filepath);
-        addheaders();
+        addFileheaders();
     }
 
     public byte[] output() {
@@ -27,10 +28,10 @@ public class FileResponse extends Response {
         return outputStream.toByteArray();
     }
 
-    public void addheaders() {
-        headers.put("Content-Length", String.valueOf(file.length()));
-        headers.put("Content-Type", getMimeType());
-        headers.put("Content-Disposition", "attachment");
+    public void addFileheaders() {
+        addHeader("Content-Length", String.valueOf(file.length()));
+        addHeader("Content-Type", getMimeType());
+        addHeader("Content-Disposition", "attachment");
     }
 
     public String getMimeType() {
@@ -46,6 +47,12 @@ public class FileResponse extends Response {
 
     public byte[] readFile() throws IOException {
         Path path = Paths.get(filepath);
-        return Files.readAllBytes(path);
+        if (status == 206) {
+            addHeader("Content-Range", "bytes 0-4/" + file.length());
+            return Arrays.copyOfRange(Files.readAllBytes(path), 0, 4);
+        }
+        else {
+            return Files.readAllBytes(path);
+        }
     }
 }

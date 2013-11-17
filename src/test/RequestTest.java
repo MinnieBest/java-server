@@ -16,6 +16,7 @@ public class RequestTest {
                                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5)\r\n" +
                                 "Accept-Encoding: gzip,deflate,sdch Accept-Language: en-US,en;q=0.8\r\n" +
                                 "Cookie: textwrapon=false; wysiwyg=textarea\r\n" +
+                                "Authorization: Basic password\r\n" +
                                 "MyAuthorization: 12345password\r\n\r\n" +
                                 "MyParam=Testing";
 
@@ -37,6 +38,10 @@ public class RequestTest {
     @Test
     public void parsesRoute() {
         assertEquals("/testing", request.getRoute());
+    }
+
+    @Test public void parsesAuth() {
+        assertEquals("password", request.authorization.get("Basic"));
     }
 
     @Test
