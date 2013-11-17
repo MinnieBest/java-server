@@ -13,6 +13,15 @@ public class LogsController extends Controller {
     }
 
     public Response get() {
+        if (authenticate()) {
+            return new TextResponse(200, logs.toString());
+        }
+        else {
+            return new TextResponse(401, "Authentication required");
+        }
+    }
+
+    public Boolean authenticate() {
         String auth = request.authorization.get("Basic");
         String credentials = null;
         if (auth != null) {
@@ -22,11 +31,6 @@ public class LogsController extends Controller {
                 e.printStackTrace();
             }
         }
-        if (AUTH.equals(credentials)) {
-            return new TextResponse(200, logs.toString());
-        }
-        else {
-            return new TextResponse(401, "Authentication required");
-        }
+        return AUTH.equals(credentials);
     }
 }
