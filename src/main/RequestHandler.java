@@ -31,7 +31,7 @@ public class RequestHandler implements Callable {
         addLog();
         Controller controller = getController();
         if (controller == null) {
-            return new TextResponse(404, "Not Found");
+            return new TextResponse(404, "<html><h1>404, Not Found</h1></html>");
         }
         else {
             return controller.send(request);
