@@ -16,6 +16,8 @@ public class Controller {
                 break;
             case "HEAD": response = head();
                 break;
+            case "DELETE": response = delete();
+                break;
         }
         return response;
     }
@@ -33,6 +35,10 @@ public class Controller {
     }
 
     public Response head() {
+        return methodNotAllowedResponse();
+    }
+
+    public Response delete() {
         return methodNotAllowedResponse();
     }
 

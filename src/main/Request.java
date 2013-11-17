@@ -50,7 +50,7 @@ public class Request {
     }
 
     public String getMethod() {
-        return searchInput("(^GET|POST|PUT|OPTIONS)");
+        return searchInput("(^GET|POST|PUT|OPTIONS|DELETE)");
     }
 
     public String getRoute() {

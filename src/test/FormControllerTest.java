@@ -8,7 +8,8 @@ import static org.mockito.Mockito.*;
 public class FormControllerTest {
 
     public Request getRequest = new Request("GET /form HTTP/1.1");
-    public Request postRequest = new Request("POST /form HTTP/1.1\r\n\r\ndata=test");
+    public Request postRequest = new Request("POST /form HTTP/1.1\r\n\r\ndata=testing");
+    public Request deleteRequest = new Request("DELETE /form HTTP/1.1");
     public FormController controller = new FormController();
 
     @Test
@@ -24,5 +25,14 @@ public class FormControllerTest {
     @Test
     public void postsForm() {
         assertEquals(200, controller.send(postRequest).status);
+        assertEquals("testing", controller.form.get("data"));
+    }
+
+    @Test
+    public void deletesForm() {
+        controller.send(postRequest);
+        assertEquals("testing", controller.form.get("data"));
+        assertEquals(200, controller.send(deleteRequest).status);
+        assertEquals(null, controller.form.get("data"));
     }
 }

@@ -27,4 +27,9 @@ public class FormController extends Controller {
     public Response put() {
         return post();
     }
+
+    public Response delete() {
+        form.remove("data");
+        return new Response(200);
+    }
 }
