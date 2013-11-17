@@ -9,9 +9,9 @@ import java.io.*;
 @RunWith(JUnit4.class)
 public class FileResponseTest {
 
-    FileResponse response = new FileResponse(200, "test.txt");
-    FileResponse zipResponse = new FileResponse(200, "test.text.zip");
-    FileResponse docResponse = new FileResponse(200, "Testing.doc");
+    FileResponse response = new FileResponse(200, "resources/test.txt");
+    FileResponse zipResponse = new FileResponse(200, "resources/test.text.zip");
+    FileResponse docResponse = new FileResponse(200, "resources/Testing.doc");
 
     @Test
     public void initsWithStatus() {
@@ -20,7 +20,7 @@ public class FileResponseTest {
 
     @Test
     public void initsWithPath() {
-        assertEquals("test.txt", response.filepath);
+        assertEquals("resources/test.txt", response.filepath);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class FileResponseTest {
     @Test
     public void readsFile() throws IOException {
         assertEquals(byte[].class, response.readFile().getClass());
-        assertEquals(new File("test.txt").length(), response.readFile().length);
+        assertEquals(new File("resources/test.txt").length(), response.readFile().length);
     }
 
     @Test
