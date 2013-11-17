@@ -24,8 +24,18 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void createsNewForm() {
-        assertNotNull(handler.form);
+    public void createsRoutesMap() {
+        assertEquals(true, handler.routes.get("/redirect") instanceof RedirectController);
+    }
+
+    @Test
+    public void routesFile() {
+        assertEquals(true, handler.routes.get("file") instanceof FileController);
+    }
+
+    @Test
+    public void routesDirectory() {
+        assertEquals(true, handler.routes.get("directory") instanceof DirectoryController);
     }
 
     @Test

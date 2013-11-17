@@ -10,7 +10,15 @@ import org.junit.runners.Suite;
   RequestHandlerTest.class,
   ResponseTest.class,
   FileResponseTest.class,
-  TextResponseTest.class
+  TextResponseTest.class,
+  ControllerTest.class,
+  FileControllerTest.class,
+  DirectoryControllerTest.class,
+  OptionsControllerTest.class,
+  ParamControllerTest.class,
+  RedirectControllerTest.class,
+  FormControllerTest.class,
+  LogsControllerTest.class
 })
 
 public class AllTests {
