@@ -15,7 +15,7 @@ public class Server {
 
     public void start() {
         System.out.println("Listening on port " + serverSocket.getLocalPort());
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ExecutorService executor = Executors.newFixedThreadPool(8);
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
