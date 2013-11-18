@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
@@ -28,5 +29,24 @@ public class ServerTest {
         Server server = new Server(5000);
         server.serverSocket.close();
         assertNotNull(server.makeSocketHandler(new Socket()));
+    }
+
+    @Test
+    public void acceptsOnSocket() throws IOException {
+        System.setOut(new PrintStream(new ByteArrayOutputStream()));
+        Server spyServer = spy(new Server(5000));
+        spyServer.serverSocket.close();
+        ServerSocket mockServerSocket = mock(ServerSocket.class);
+        spyServer.serverSocket = mockServerSocket;
+        Socket mockSocket = mock(Socket.class);
+        Thread mockThread = mock(Thread.class);
+        when(mockServerSocket.accept()).thenReturn(mockSocket);
+        when(mockServerSocket.isClosed()).thenReturn(false, true);
+        when(spyServer.makeServerSocket()).thenReturn(mockServerSocket);
+        when(spyServer.newThread(mockSocket)).thenReturn(mockThread);
+
+        spyServer.start();
+        verify(mockServerSocket).accept();
+        verify(mockThread).run();
     }
 }
