@@ -39,7 +39,7 @@ public class RequestHandler implements Callable {
     }
 
     public void addLog() {
-        String entry = request.inputString;
+        String entry = request.log;
         if (logs.size() == 5) {
             logs.remove(0);
         }

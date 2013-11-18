@@ -1,22 +1,33 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import java.util.HashMap;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
 public class FileControllerTest {
 
-    public Request fullRequest = new Request("GET /test.txt HTTP/1.1");
-    public Request partialRequest = new Request("GET /test.txt HTTP/1.1\r\nRange: bytes=0-4\r\n");
+    public Request request = mock(Request.class);
     public FileController controller = new FileController("resources");
 
     @Test
     public void returnsFullFile() {
-        assertEquals(200, controller.send(fullRequest).status);
+        request.method = "GET";
+        request.route = "/test.txt";
+        request.range = new HashMap<String, Integer>();
+        assertEquals(200, controller.send(request).status);
     }
 
     @Test
     public void returnsPartiaFile() {
-        assertEquals(206, controller.send(partialRequest).status);
+        request.method = "GET";
+        request.route = "/test.txt";
+        HashMap<String, Integer> rangeMap = new HashMap<String, Integer>();
+        rangeMap.put("Length", 10);
+        rangeMap.put("Start", 0);
+        rangeMap.put("Stop", 9);
+        request.range = rangeMap;
+        assertEquals(206, controller.send(request).status);
     }
 }

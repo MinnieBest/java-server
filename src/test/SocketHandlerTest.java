@@ -50,8 +50,8 @@ public class SocketHandlerTest {
     }
 
     @Test
-    public void createsRequest() {
-        Request request = handler.makeRequest("GET / HTTP/1.1\n");
+    public void createsRequest() throws IOException {
+        Request request = handler.makeRequest(new ByteArrayInputStream("GET / HTTP/1.1\n".getBytes()));
         assertEquals("GET", request.method);
     }
 

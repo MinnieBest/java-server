@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
@@ -12,32 +13,42 @@ public class RequestTest {
                                 "Host: localhost:5000\r\n" +
                                 "Connection: keep-alive\r\n" +
                                 "Cache-Control: max-age=0\r\n" +
+                                "Content-Length: 26\r\n" +
                                 "Accept: text/html,application/xml;q=0.9,image/webp\r\n"+
                                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5)\r\n" +
                                 "Accept-Encoding: gzip,deflate,sdch Accept-Language: en-US,en;q=0.8\r\n" +
                                 "Cookie: textwrapon=false; wysiwyg=textarea\r\n" +
                                 "Authorization: Basic password\r\n" +
-                                "MyAuthorization: 12345password\r\n\r\n" +
-                                "MyParam=Testing";
+                                "MyAuthorization: 12345password\r\n\r\n";
 
     private String optionsString = "OPTIONS / HTTP/1.1\n\n";
 
-    private Request request = new Request(testString);
+    private String testBody = "data=test&other_data=kevin";
+
+    private InputStream inputStream = new ByteArrayInputStream((testString + testBody).getBytes());
+    private InputStream optionStream = new ByteArrayInputStream(optionsString.getBytes());
+
+    private Request request = new Request(inputStream);
+    private Request optionsRequest = new Request(optionStream);
 
     @Test
     public void parsesMethod() {
-        assertEquals("GET", request.getMethod());
+        assertEquals("GET", request.method);
     }
 
     @Test
     public void parsesOptionsMethod() {
-        Request request = new Request(optionsString);
-        assertEquals("OPTIONS", request.getMethod());
+        assertEquals("OPTIONS", optionsRequest.method);
     }
 
     @Test
     public void parsesRoute() {
-        assertEquals("/testing", request.getRoute());
+        assertEquals("/testing", request.route);
+    }
+
+    @Test
+    public void parsesContentLength() {
+        assertEquals("26", request.headers.get("Content-Length"));
     }
 
     @Test public void parsesAuth() {
@@ -52,43 +63,8 @@ public class RequestTest {
 
     @Test
     public void parsesParams() {
-        assertEquals("Testing", request.params.get("MyParam"));
-    }
-
-    @Test
-    public void parsesHttpVersion() {
-        assertEquals("HTTP/1.1", request.getHttpv());
-    }
-
-    @Test
-    public void parsesHost() {
-        assertEquals("localhost:5000", request.getHost());
-    }
-
-    @Test
-    public void parsesConnection() {
-        assertEquals("keep-alive", request.getConnection());
-    }
-
-    @Test
-    public void parsesCacheControl() {
-        assertEquals("max-age=0", request.getCacheControl());
-    }
-
-    @Test
-    public void parsesAccept() {
-        String[] accept = new String[] {"text/html", "application/xml;q=0.9", "image/webp"};
-        assertEquals(accept, request.getAccept());
-    }
-
-    @Test
-    public void parsesUserAgent() {
-        assertEquals("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5)", request.getUserAgent());
-    }
-
-    @Test
-    public void parsesCookie() {
-        assertEquals(new String[] {"textwrapon=false", "wysiwyg=textarea"}, request.getCookie());
+        assertEquals("test", request.params.get("data"));
+        assertEquals("kevin", request.params.get("other_data"));
     }
 
     @Test
