@@ -14,8 +14,7 @@ public class SocketHandler implements Runnable {
         try {
             InputStream input = socket.getInputStream();
             OutputStream output = socket.getOutputStream();
-            Request request = makeRequest(inputString(input));
-            System.out.println(request.inputString);
+            Request request = makeRequest(input);
             Response response = app.call(request);
             output.write(response.output());
             output.flush();
@@ -27,17 +26,7 @@ public class SocketHandler implements Runnable {
         }
     }
 
-    public Request makeRequest(String inputString) {
-        return new Request(inputString);
-    }
-
-    public static String inputString(InputStream input) throws IOException {
-        StringBuffer output = new StringBuffer();
-        byte[] bytes = new byte[4096];
-        int i = input.read(bytes);
-        if (i != -1) {
-            output.append(new String(bytes, 0, i));
-        }
-        return output.toString();
+    public Request makeRequest(InputStream input) throws IOException {
+        return new Request(input);
     }
 }

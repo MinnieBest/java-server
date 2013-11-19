@@ -1,22 +1,53 @@
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import java.util.HashMap;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
 
-    public Request simpleRequest = new Request("GET / HTTP/1.1");
-    public Request optionsRequest = new Request("OPTIONS / HTTP/1.1");
-    public Request optionsRequestRoute = new Request("GET /method_options HTTP/1.1");
-    public Request redirectRequest = new Request("GET /redirect HTTP/1.1");
-    public Request fileRequest = new Request("GET /test.txt HTTP/1.1");
-    public Request directoryRequest = new Request("GET /test HTTP/1.1");
-    public Request notFoundRequest = new Request("GET /notHere HTTP/1.1");
-    public Request noMethodRequest = new Request("PUT /test.txt HTTP/1.1");
+    public Request simpleRequest = mock(Request.class);
+    public Request optionsRequest = mock(Request.class);
+    public Request optionsRequestRoute = mock(Request.class);
+    public Request redirectRequest = mock(Request.class);
+    public Request fileRequest = mock(Request.class);
+    public Request directoryRequest = mock(Request.class);
+    public Request notFoundRequest = mock(Request.class);
+    public Request noMethodRequest = mock(Request.class);
 
     private RequestHandler handler = new RequestHandler("resources");
+
+    @Before
+    public void setup() {
+        simpleRequest.route = "/";
+        simpleRequest.method = "GET";
+
+        optionsRequest.route = "/";
+        optionsRequest.method = "OPTIONS";
+
+        optionsRequestRoute.route = "/method_options";
+        optionsRequestRoute.method = "GET";
+
+        redirectRequest.route = "/redirect";
+        redirectRequest.method = "GET";
+
+        fileRequest.route = "/test.txt";
+        fileRequest.method = "GET";
+        fileRequest.range = new HashMap<String, Integer>();
+
+        directoryRequest.route = "/test";
+        directoryRequest.method = "GET";
+
+        notFoundRequest.route = "/notHere";
+        notFoundRequest.method = "GET";
+
+        noMethodRequest.route = "/test.txt";
+        noMethodRequest.method = "PUT";
+    }
 
     @Test
     public void initsWithDirectory() {
@@ -46,7 +77,7 @@ public class RequestHandlerTest {
     @Test
     public void addsToLogs() {
         handler.call(simpleRequest);
-        assertEquals("GET / HTTP/1.1", handler.logs.get(0));
+        assertEquals(1, handler.logs.size());
     }
 
     @Test

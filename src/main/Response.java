@@ -1,9 +1,8 @@
-import java.util.Map;
 import java.util.HashMap;
 
 public class Response {
 
-    public static final Map<Integer, String> STATUS_CODES = new HashMap<Integer, String>();
+    public static final HashMap<Integer, String> STATUS_CODES = new HashMap<Integer, String>();
         static {
             STATUS_CODES.put(200, "OK");
             STATUS_CODES.put(206, "Partial Content");

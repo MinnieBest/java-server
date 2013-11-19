@@ -1,46 +1,80 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Map;
 import java.util.HashMap;
+import java.io.*;
 import java.net.URLDecoder;
 
 public class Request {
 
-    public String inputString;
+    public BufferedReader reader;
+    public String headerString;
+    public HashMap<String, String> headers;
+    public String body;
     public String method;
     public String route;
-    public HashMap<String, String> authorization;
-    public String httpv;
     public String host;
-    public String connection;
-    public String cacheControl;
-    public String[] accept;
-    public String userAgent;
-    public String[] cookie;
+    public HashMap<String, String> authorization;
     public HashMap<String, Integer> range;
-    public HashMap<String, String> headers;
     public HashMap<String, String> params;
+    public String log;
 
-    public Request(String input) {
-        this.inputString = input;
+    public Request(InputStream input) {
+        this.reader = new BufferedReader(new InputStreamReader(input));
+        this.headerString = getHeaderString();
+        this.headers = getHeaders();
+        this.body = getBody();
         this.method = getMethod();
         this.route = getRoute();
+        this.host = headers.get("Host");
         this.authorization = getAuth();
-        this.httpv = getHttpv();
-        this.host = getHost();
-        this.connection = getConnection();
-        this.cacheControl = getCacheControl();
-        this.accept = getAccept();
-        this.userAgent = getUserAgent();
-        this.cookie = getCookie();
         this.range = getRange();
-        this.headers = getHeaders();
         this.params = getParams();
+        this.log = headerString + body;
     }
 
-    public String searchInput(String regex) {
+    public String getHeaderString() {
+        StringBuilder headers = new StringBuilder();
+        try {
+            String line = reader.readLine();
+            while(line != null && !line.equals("")) {
+                headers.append(line);
+                headers.append("\r\n");
+                line = reader.readLine();
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return headers.toString();
+    }
+
+    public HashMap<String, String> getHeaders() {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        String[] rawHeaders = headerString.split("\r\n");
+        for (String header : rawHeaders) {
+            String[] headerPair = header.split("(: )");
+            headers.put(headerPair[0], headerPair[headerPair.length - 1]);
+        }
+        return headers;
+    }
+
+    public String getBody() {
+        StringBuilder body = new StringBuilder();
+        String length = headers.get("Content-Length");
+        if (length != null) {
+            while (body.length() < Integer.parseInt(length)) {
+                try {
+                    body.append((char) reader.read());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return body.toString();
+    }
+
+    public String searchHeaders(String regex) {
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(inputString);
+        Matcher matcher = pattern.matcher(headerString);
         if (matcher.find()) {
             return matcher.group(1);
         }
@@ -50,55 +84,27 @@ public class Request {
     }
 
     public String getMethod() {
-        return searchInput("(^GET|POST|PUT|OPTIONS|DELETE)");
+        return searchHeaders("(^GET|POST|PUT|OPTIONS|DELETE)");
     }
 
     public String getRoute() {
-        String route = searchInput("(\\/[^\\s\\?]*)");
+        String route = searchHeaders("(\\/[^\\s\\?]*)");
         return URLDecoder.decode(route);
     }
 
     public HashMap<String, String> getAuth() {
         HashMap<String, String> protocol = new HashMap<String, String>();
-        String auth = searchInput("((?<=\\nAuthorization: )([^\\r]+))");
-        if (!auth.equals("")) {
+        String auth = headers.get("Authorization");
+        if (auth != null) {
             String[] pair = auth.split(" ");
             protocol.put(pair[0], pair[1]);
         }
         return protocol;
     }
 
-    public String getHttpv() {
-        return searchInput("(HTTP\\S+)");
-    }
-
-    public String getHost() {
-        return searchInput("((?<=Host: )([^\\r]+))").trim();
-    }
-
-    public String getConnection() {
-        return searchInput("((?<=Connection: )([^\\r]+))");
-    }
-
-    public String getCacheControl() {
-        return searchInput("((?<=Cache-Control: )([^\\r]+))");
-    }
-
-    public String[] getAccept() {
-        return searchInput("((?<=Accept: )([^\\r]+))").split(",");
-    }
-
-    public String getUserAgent() {
-        return searchInput("((?<=User-Agent: )([^\\r]+))");
-    }
-
-    public String[] getCookie() {
-        return searchInput("((?<=Cookie: )([^\\r]+))").split("; ");
-    }
-
     public HashMap<String, Integer> getRange() {
         HashMap<String, Integer> rangeMap = new HashMap<String, Integer>();
-        String[] range = searchInput("((?<=\\nRange: bytes=)([^\\r]+))").split("-");
+        String[] range = searchHeaders("((?<=\\nRange: bytes=)([^\\r]+))").split("-");
         if (range.length == 2) {
             rangeMap.put("Start", Integer.parseInt(range[0]));
             rangeMap.put("Stop", Integer.parseInt(range[1]));
@@ -108,15 +114,6 @@ public class Request {
         return rangeMap;
     }
 
-    public HashMap<String, String> getHeaders() {
-        HashMap<String, String> headers = new HashMap<String, String>();
-        String[] splitInput = inputString.split("\r\n");
-        for (String header : splitInput) {
-            String[] headerPair = header.split("(:)( ?)");
-            headers.put(headerPair[0], headerPair[headerPair.length - 1]);
-        }
-        return headers;
-    }
 
     public HashMap<String, String> getParams() {
         if (getQueryString().isEmpty()) {
@@ -131,20 +128,17 @@ public class Request {
 
     public HashMap<String, String> getFormParams() {
         HashMap<String, String> params = new HashMap<String, String>();
-        String[] splitInput = inputString.split("\r\n\r\n");
-        if (splitInput.length == 2) {
-            String[] rawParams = splitInput[1].split(" ");
-            for (String param : rawParams) {
-                String[] paramPair = param.split("=");
-                params.put(paramPair[0], paramPair[paramPair.length - 1]);
-            }
+        String[] rawParams = body.split("&");
+        for (String param : rawParams) {
+            String[] paramPair = param.split("=");
+            params.put(paramPair[0], paramPair[paramPair.length - 1]);
         }
         return params;
     }
 
     public HashMap<String, String> getQueryString() {
         HashMap<String, String> queryString = new HashMap<String, String>();
-        String[] queries = searchInput("(?<=\\?)(\\S+)").split("&");
+        String[] queries = searchHeaders("(?<=\\?)(\\S+)").split("&");
         for (String query : queries) {
             String[] queryPair = query.split("=");
             String key = URLDecoder.decode(queryPair[0]);

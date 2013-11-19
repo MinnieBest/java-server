@@ -50,8 +50,8 @@ public class SocketHandlerTest {
     }
 
     @Test
-    public void createsRequest() {
-        Request request = handler.makeRequest("GET / HTTP/1.1\n");
+    public void createsRequest() throws IOException {
+        Request request = handler.makeRequest(new ByteArrayInputStream("GET / HTTP/1.1\n".getBytes()));
         assertEquals("GET", request.method);
     }
 
@@ -83,12 +83,6 @@ public class SocketHandlerTest {
     public void closesSocket() throws IOException {
         handler.run();
         verify(mockSocket).close();
-    }
-
-    @Test
-    public void parsesInputStream() throws IOException {
-        InputStream input = new ByteArrayInputStream("Testing the input parser".getBytes());
-        assertEquals("Testing the input parser", SocketHandler.inputString(input));
     }
 }
 
