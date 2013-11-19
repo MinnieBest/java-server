@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.DatatypeConverter;
 
@@ -6,9 +6,9 @@ public class LogsController extends Controller {
 
     public static final String AUTH = "admin:hunter2";
 
-    public ArrayList<String> logs;
+    public LinkedList<String> logs;
 
-    public LogsController(ArrayList<String> logs) {
+    public LogsController(LinkedList<String> logs) {
         this.logs = logs;
     }
 

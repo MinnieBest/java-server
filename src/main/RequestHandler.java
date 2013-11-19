@@ -1,5 +1,5 @@
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.io.File;
 
 public class RequestHandler implements Callable {
@@ -7,11 +7,11 @@ public class RequestHandler implements Callable {
     public String baseDirectory;
     public HashMap<String, Controller> routes;
     public Request request;
-    public ArrayList<String> logs;
+    public LinkedList<String> logs;
 
     public RequestHandler(String directory) {
         this.baseDirectory = directory;
-        this.logs = new ArrayList<String>(5);
+        this.logs = new LinkedList<String>();
         this.routes = new HashMap<String, Controller>();
         drawRoutes();
     }
@@ -41,9 +41,9 @@ public class RequestHandler implements Callable {
     public void addLog() {
         String entry = request.log;
         if (logs.size() == 5) {
-            logs.remove(0);
+            logs.removeFirst();
         }
-        logs.add(entry);
+        logs.addLast(entry);
     }
 
     public Controller getController() {

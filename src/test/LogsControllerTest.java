@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.HashMap;
 import static org.mockito.Mockito.*;
 
@@ -11,7 +11,7 @@ import static org.mockito.Mockito.*;
 public class LogsControllerTest {
 
     public Request request = mock(Request.class);
-    public LogsController controller = new LogsController(new ArrayList<String>());
+    public LogsController controller = new LogsController(new LinkedList<String>());
 
     @Before
     public void setup() {
