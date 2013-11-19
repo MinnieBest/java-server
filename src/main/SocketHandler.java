@@ -29,14 +29,4 @@ public class SocketHandler implements Runnable {
     public Request makeRequest(InputStream input) throws IOException {
         return new Request(input);
     }
-
-    public static String inputString(InputStream input) throws IOException {
-        StringBuffer output = new StringBuffer();
-        byte[] bytes = new byte[4096];
-        int i = input.read(bytes);
-        if (i != -1) {
-            output.append(new String(bytes, 0, i));
-        }
-        return output.toString();
-    }
 }

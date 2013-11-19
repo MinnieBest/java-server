@@ -84,11 +84,5 @@ public class SocketHandlerTest {
         handler.run();
         verify(mockSocket).close();
     }
-
-    @Test
-    public void parsesInputStream() throws IOException {
-        InputStream input = new ByteArrayInputStream("Testing the input parser".getBytes());
-        assertEquals("Testing the input parser", SocketHandler.inputString(input));
-    }
 }
 
