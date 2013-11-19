@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.*;
 
 @RunWith(JUnit4.class)
 public class ResponseTest {
@@ -31,12 +32,12 @@ public class ResponseTest {
 
     @Test
     public void buildsTheHeaders() {
-        assertEquals("Accept: application/json\n", response.buildHeaders());
+        assertThat(response.buildHeaders(), containsString("Accept: application/json\n"));
     }
 
     @Test
     public void buildsFullResponse() {
-        assertEquals("HTTP/1.1 200 OK\nAccept: application/json\n\n", response.responseString());
+        assertThat(response.responseString(), containsString("HTTP/1.1 200 OK\nContent-Type: text/html\nConnection: close\nAccept: application/json\nServer: myserver"));
     }
 
     @Test

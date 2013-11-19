@@ -2,6 +2,8 @@ import java.util.HashMap;
 
 public class Response {
 
+    public static String SERVER_NAME = "myserver";
+
     public static final HashMap<Integer, String> STATUS_CODES = new HashMap<Integer, String>();
         static {
             STATUS_CODES.put(200, "OK");
@@ -42,6 +44,9 @@ public class Response {
 
     public String buildHeaders() {
         StringBuilder builder = new StringBuilder();
+        addHeader("Server", SERVER_NAME);
+        addHeader("Connection", "close");
+        addHeader("Content-Type", "text/html");
         for(String header : headers.keySet()) {
             builder.append(header + ": " + headers.get(header));
             builder.append("\n");

@@ -8,6 +8,7 @@ public class TextResponse extends Response {
     }
 
     public String responseString() {
+        addHeader("Content-Length", Integer.toString(body.length()));
         String httpv = "HTTP/1.1";
         String statusString = buildStatus();
         String headerString = buildHeaders();

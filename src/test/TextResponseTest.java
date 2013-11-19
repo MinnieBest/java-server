@@ -2,6 +2,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.*;
 
 @RunWith(JUnit4.class)
 public class TextResponseTest {
@@ -22,6 +23,6 @@ public class TextResponseTest {
     public void buildsFullResponse() {
         response.addHeader("Connection", "keep-alive");
         response.addHeader("Content-Length", "10");
-        assertEquals("HTTP/1.1 404 Not Found\nContent-Length: 10\nConnection: keep-alive\n\n<html><h1>Not Found</h1></html>", response.responseString());
+        assertThat(response.responseString(), containsString("HTTP/1.1 404 Not Found\n"));
     }
 }
