@@ -11,26 +11,38 @@ public class InputController extends Controller {
                                 "</form>";
 
     public HashMap<String, String> form;
+    public HashMap<String, String> params;
 
     public InputController() {
         this.form = new HashMap<String, String>();
     }
 
+    public String paramDisplay(String key) {
+        return "<h2>" + key + ": " + form.get(key) + "</h2>";
+    }
+
     public Response get() {
         StringBuilder body = new StringBuilder();
         body.append(FORM);
-        body.append("<h2>" + "input1" + ": " + form.get("input1") + "</h2>");
-        body.append("<h2>" + "input2" + ": " + form.get("input2") + "</h2>");
-        body.append("<h2>" + "input3" + ": " + form.get("input3") + "</h2>");
+        body.append(paramDisplay("input1"));
+        body.append(paramDisplay("input2"));
+        body.append(paramDisplay("input3"));
         body.append("</html>");
         return new TextResponse(200, body.toString());
     }
 
+    public void saveParam(String key) {
+        String value = params.get(key);
+        if (value != null) {
+            form.put(key, HTMLEncoder.encode(value));
+        }
+    }
+
     public Response post() {
-        HashMap<String, String> params = request.params;
-        form.put("input1", HTMLEncoder.encode(params.get("input1")));
-        form.put("input2", HTMLEncoder.encode(params.get("input2")));
-        form.put("input3", HTMLEncoder.encode(params.get("input3")));
+        this.params = request.params;
+        saveParam("input1");
+        saveParam("input2");
+        saveParam("input3");
         Response response = new Response(302);
         response.addHeader("Location", "/input");
         return response;

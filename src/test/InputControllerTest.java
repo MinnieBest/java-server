@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.HashMap;
 import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
@@ -27,6 +28,12 @@ public class InputControllerTest {
     public void getsForm() {
         request.method = "GET";
         assertEquals(200, controller.send(request).status);
+    }
+
+    @Test
+    public void displaysData() {
+        controller.form.put("input1", "Testing");
+        assertThat(controller.paramDisplay("input1"), containsString("Testing"));
     }
 
     @Test
