@@ -19,7 +19,8 @@ import org.junit.runners.Suite;
   RedirectControllerTest.class,
   FormControllerTest.class,
   LogsControllerTest.class,
-  InputControllerTest.class
+  InputControllerTest.class,
+  HTMLEncoderTest.class
 })
 
 public class AllTests {

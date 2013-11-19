@@ -28,9 +28,9 @@ public class InputController extends Controller {
 
     public Response post() {
         HashMap<String, String> params = request.params;
-        form.put("input1", params.get("input1"));
-        form.put("input2", params.get("input2"));
-        form.put("input3", params.get("input3"));
+        form.put("input1", HTMLEncoder.encode(params.get("input1")));
+        form.put("input2", HTMLEncoder.encode(params.get("input2")));
+        form.put("input3", HTMLEncoder.encode(params.get("input3")));
         Response response = new Response(302);
         response.addHeader("Location", "/input");
         return response;

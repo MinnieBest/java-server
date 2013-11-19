@@ -38,6 +38,14 @@ public class InputControllerTest {
     }
 
     @Test
+    public void escapesString() {
+        request.method = "POST";
+        request.params.put("input1", "<script>alert('here');</script>");
+        controller.send(request);
+        assertEquals("&lt;script&gt;alert('here');&lt;/script&gt;", controller.form.get("input1"));
+    }
+
+    @Test
     public void deletesForm() {
         request.method = "POST";
         request.params.put("input1", "testing");
