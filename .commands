@@ -19,3 +19,9 @@ java org.junit.runner.JUnitCore AllTests
 classpath
 
 export CLASSPATH="bin/main:bin/test:lib/*"
+
+emma
+
+java -XX:-UseSplitVerifier emmarun -cp bin/main:bin/test:lib/junit-4.11.jar -ix Arguments,Callable,Controller,DirectoryController,FileController,FileResponse,FormController,HTMLEncoder,InputController,LogsController,OptionsController,ParamController,RedirectController,Request,RequestHandler,Response,Server,SocketHandler,TextResponse org.junit.runner.JUnitCore AllTests
+
+
