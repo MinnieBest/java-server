@@ -18,7 +18,8 @@ import org.junit.runners.Suite;
   ParamControllerTest.class,
   RedirectControllerTest.class,
   FormControllerTest.class,
-  LogsControllerTest.class
+  LogsControllerTest.class,
+  InputControllerTest.class
 })
 
 public class AllTests {

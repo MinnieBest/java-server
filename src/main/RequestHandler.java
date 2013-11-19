@@ -19,6 +19,7 @@ public class RequestHandler implements Callable {
     public void drawRoutes() {
         routes.put("/method_options", new OptionsController());
         routes.put("/redirect", new RedirectController());
+        routes.put("/input", new InputController());
         routes.put("/form", new FormController());
         routes.put("/parameters", new ParamController());
         routes.put("/logs", new LogsController(logs));

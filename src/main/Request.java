@@ -19,7 +19,7 @@ public class Request {
     public String log;
 
     public Request(InputStream input) {
-        this.reader = new BufferedReader(new InputStreamReader(input));
+        this.reader = getReader(input);
         this.headerString = getHeaderString();
         this.headers = getHeaders();
         this.body = getBody();
@@ -30,6 +30,16 @@ public class Request {
         this.range = getRange();
         this.params = getParams();
         this.log = headerString + body;
+    }
+
+    public BufferedReader getReader(InputStream input) {
+        BufferedReader newReader = null;
+        try {
+            newReader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+        } catch(UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return newReader;
     }
 
     public String getHeaderString() {
@@ -131,7 +141,7 @@ public class Request {
         String[] rawParams = body.split("&");
         for (String param : rawParams) {
             String[] paramPair = param.split("=");
-            params.put(paramPair[0], paramPair[paramPair.length - 1]);
+            params.put(paramPair[0], URLDecoder.decode(paramPair[paramPair.length - 1]));
         }
         return params;
     }
