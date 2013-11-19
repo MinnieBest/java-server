@@ -43,10 +43,9 @@ public class Response {
     }
 
     public String buildHeaders() {
-        StringBuilder builder = new StringBuilder();
         addHeader("Server", SERVER_NAME);
         addHeader("Connection", "close");
-        addHeader("Content-Type", "text/html");
+        StringBuilder builder = new StringBuilder();
         for(String header : headers.keySet()) {
             builder.append(header + ": " + headers.get(header));
             builder.append("\n");

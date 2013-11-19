@@ -44,11 +44,6 @@ public class FileResponseTest {
     }
 
     @Test
-    public void addsAttachmentHeader() {
-        assertEquals("attachment", response.headers.get("Content-Disposition"));
-    }
-
-    @Test
     public void readsFile() throws IOException {
         assertEquals(byte[].class, response.readFile().getClass());
         assertEquals(new File("resources/test.txt").length(), response.readFile().length);

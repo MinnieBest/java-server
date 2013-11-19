@@ -37,7 +37,7 @@ public class ResponseTest {
 
     @Test
     public void buildsFullResponse() {
-        assertThat(response.responseString(), containsString("HTTP/1.1 200 OK\nContent-Type: text/html\nConnection: close\nAccept: application/json\nServer: myserver"));
+        assertThat(response.responseString(), containsString("HTTP/1.1 200 OK\nConnection: close\nAccept: application/json\nServer: myserver"));
     }
 
     @Test

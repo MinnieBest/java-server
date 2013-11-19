@@ -33,7 +33,6 @@ public class FileResponse extends Response {
     public void addFileheaders() {
         addHeader("Content-Length", String.valueOf(file.length()));
         addHeader("Content-Type", getMimeType());
-        addHeader("Content-Disposition", "attachment");
     }
 
     public String getMimeType() {
