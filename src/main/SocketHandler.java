@@ -15,7 +15,6 @@ public class SocketHandler implements Runnable {
             InputStream input = socket.getInputStream();
             OutputStream output = socket.getOutputStream();
             Request request = makeRequest(input);
-            System.out.println(request.log);
             Response response = app.call(request);
             output.write(response.output());
             output.flush();
