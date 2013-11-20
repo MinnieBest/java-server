@@ -99,12 +99,12 @@ public class RequestHandlerTest {
 
     @Test
     public void returnsFileResponse() {
-        assertEquals(true, handler.call(fileRequest) instanceof FileResponse);
+        assertEquals(true, handler.call(fileRequest) instanceof Response);
     }
 
     @Test
-    public void returnsDirectoryRespons() {
-        assertEquals(true, handler.call(directoryRequest) instanceof TextResponse);
+    public void returnsDirectoryResponse() {
+        assertEquals(true, handler.call(directoryRequest) instanceof Response);
     }
 
     @Test

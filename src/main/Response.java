@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.io.*;
 
 public class Response {
 
@@ -16,10 +17,15 @@ public class Response {
 
     public int status;
     public HashMap<String, String> headers;
+    public HTTPBody body;
 
     public Response(int status) {
         this.status = status;
         this.headers = new HashMap<String, String>();
+    }
+
+    public void addBody(HTTPBody body) {
+        this.body = body;
     }
 
     public void addHeader(String header, String content) {
@@ -27,7 +33,14 @@ public class Response {
     }
 
     public byte[] output() {
-        return responseString().getBytes();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            outputStream.write(responseString().getBytes());
+            outputStream.write(body.output());
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return outputStream.toByteArray();
     }
 
     public String responseString() {
@@ -45,6 +58,8 @@ public class Response {
     public String buildHeaders() {
         addHeader("Server", SERVER_NAME);
         addHeader("Connection", "close");
+        addHeader("Content-Type", body.contentType());
+        addHeader("Content-Length", String.valueOf(body.contentLength()));
         StringBuilder builder = new StringBuilder();
         for(String header : headers.keySet()) {
             builder.append(header + ": " + headers.get(header));

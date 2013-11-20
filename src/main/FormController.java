@@ -14,7 +14,9 @@ public class FormController extends Controller {
             String data = key + " = " + form.get(key);
             body = body + data;
         }
-        return new TextResponse(200, body);
+        Response response = new Response(200);
+        response.addBody(new TextBody(body));
+        return response;
     }
 
     public Response post() {

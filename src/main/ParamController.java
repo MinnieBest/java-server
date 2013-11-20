@@ -7,6 +7,8 @@ public class ParamController extends Controller {
             String data = key + " = " + value + " ";
             body = body + data;
         }
-        return new TextResponse(200, body);
+        Response response = new Response(200);
+        response.addBody(new TextBody(body));
+        return response;
     }
 }

@@ -13,12 +13,16 @@ public class LogsController extends Controller {
     }
 
     public Response get() {
+        Response response = null;
         if (authenticate()) {
-            return new TextResponse(200, logs.toString());
+            response = new Response(200);
+            response.addBody(new TextBody(logs.toString()));
         }
         else {
-            return new TextResponse(401, "Authentication required");
+            response = new Response(401);
+            response.addBody(new TextBody("Authentication Required"));
         }
+        return response;
     }
 
     public Boolean authenticate() {

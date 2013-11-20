@@ -11,7 +11,9 @@ public class DirectoryController extends Controller {
     }
 
     public Response get() {
-        return new TextResponse(200, buildDirectoryContents());
+        Response response = new Response(200);
+        response.addBody(new TextBody(buildDirectoryContents()));
+        return response;
     }
 
     public String buildDirectoryContents() {
