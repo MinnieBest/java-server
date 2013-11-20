@@ -36,7 +36,9 @@ public class Response {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             outputStream.write(responseString().getBytes());
-            outputStream.write(body.output());
+            if (body != null) {
+                outputStream.write(body.output());
+            }
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -58,8 +60,10 @@ public class Response {
     public String buildHeaders() {
         addHeader("Server", SERVER_NAME);
         addHeader("Connection", "close");
-        addHeader("Content-Type", body.contentType());
-        addHeader("Content-Length", String.valueOf(body.contentLength()));
+        if (body != null) {
+            addHeader("Content-Type", body.contentType());
+            addHeader("Content-Length", String.valueOf(body.contentLength()));
+        }
         StringBuilder builder = new StringBuilder();
         for(String header : headers.keySet()) {
             builder.append(header + ": " + headers.get(header));

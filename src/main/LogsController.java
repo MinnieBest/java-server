@@ -20,7 +20,7 @@ public class LogsController extends Controller {
         }
         else {
             response = new Response(401);
-            response.addBody(new TextBody("Authentication Required"));
+            response.addBody(new TextBody("Authentication required"));
         }
         return response;
     }

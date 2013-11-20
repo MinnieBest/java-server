@@ -9,6 +9,8 @@ import org.junit.runners.Suite;
   RequestTest.class,
   RequestHandlerTest.class,
   ResponseTest.class,
+  FileBodyTest.class,
+  TextBodyTest.class,
   ControllerTest.class,
   FileControllerTest.class,
   DirectoryControllerTest.class,
