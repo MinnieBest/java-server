@@ -12,9 +12,19 @@ public class FileController extends Controller {
             response.addBody(new FileBody(baseDirectory + request.route));
         }
         else {
-            response.addBody(new FileBody(baseDirectory + request.route));
-            response.addHeader("Content-Length", request.range.get("Length").toString());
+            response = partialResponse();
         }
+        return response;
+    }
+
+    public Response partialResponse() {
+        Response response = new Response(206);
+        int start = request.range.get("Start");
+        int stop = request.range.get("Stop");
+        FileBody body = new FileBody(baseDirectory + request.route);
+        body.setRange(start, stop);
+        response.addBody(body);
+        response.addHeader("Content-Range", "bytes " + start + "-" + stop + "/" + body.file.length());
         return response;
     }
 }

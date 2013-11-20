@@ -9,10 +9,14 @@ public class FileBody implements HTTPBody {
 
     public String filePath;
     public File file;
+    public int start;
+    public int stop;
 
     public FileBody(String filePath) {
         this.filePath = filePath;
         this.file = new File(filePath);
+        this.start = 0;
+        this.stop = (int) file.length();
     }
 
     public byte[] output() {
@@ -37,11 +41,16 @@ public class FileBody implements HTTPBody {
     }
 
     public long contentLength() {
-        return file.length();
+        return stop;
+    }
+
+    public void setRange(int start, int stop) {
+        this.start = start;
+        this.stop = stop;
     }
 
     public byte[] readFile() throws IOException {
         Path path = Paths.get(filePath);
-        return Files.readAllBytes(path);
+        return Arrays.copyOfRange(Files.readAllBytes(path), start, stop);
     }
 }
