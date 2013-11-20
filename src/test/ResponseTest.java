@@ -9,10 +9,14 @@ import static org.junit.matchers.JUnitMatchers.*;
 public class ResponseTest {
 
     private Response response = new Response(200);
+    private Response fileResponse = new Response(200);
+    private Response textResponse = new Response(200);
 
     @Before
     public void init() {
         response.addHeader("Accept", "application/json");
+        fileResponse.addBody(new FileBody("resources/test.txt"));
+        textResponse.addBody(new TextBody("Testing"));
     }
 
     @Test
@@ -26,6 +30,11 @@ public class ResponseTest {
     }
 
     @Test
+    public void addBody() {
+        assertNotNull(fileResponse.body);
+    }
+
+    @Test
     public void buildsTheStatus() {
         assertEquals("200 OK", response.buildStatus());
     }
@@ -33,6 +42,16 @@ public class ResponseTest {
     @Test
     public void buildsTheHeaders() {
         assertThat(response.buildHeaders(), containsString("Accept: application/json\n"));
+    }
+
+    @Test
+    public void addsContentTypeHeader() {
+        assertThat(textResponse.buildHeaders(), containsString("Content-Type: text/html"));
+    }
+
+    @Test
+    public void addsContentLengthHeader() {
+        assertThat(fileResponse.buildHeaders(), containsString("Content-Length: 27"));
     }
 
     @Test

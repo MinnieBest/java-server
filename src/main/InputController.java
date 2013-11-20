@@ -28,7 +28,9 @@ public class InputController extends Controller {
         body.append(paramDisplay("input2"));
         body.append(paramDisplay("input3"));
         body.append("</html>");
-        return new TextResponse(200, body.toString());
+        Response response = new Response(200);
+        response.addBody(new TextBody(response.toString()));
+        return response;
     }
 
     public void saveParam(String key) {

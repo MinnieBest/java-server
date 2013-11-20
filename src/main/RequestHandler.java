@@ -32,7 +32,9 @@ public class RequestHandler implements Callable {
         addLog();
         Controller controller = getController();
         if (controller == null) {
-            return new TextResponse(404, "<html><h1>404, Not Found</h1></html>");
+            Response response = new Response(404);
+            response.addBody(new TextBody("<html><h1>404, Not Found</h1></html>"));
+            return response;
         }
         else {
             return controller.send(request);
