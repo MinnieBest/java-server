@@ -33,10 +33,9 @@ public class RequestLoggerTest {
 
     @Test
     public void logsRequest() {
-        request.headerString = "Test Headers";
-        request.body = "Test Body";
+        request.log = "Test log";
         RequestLogger.logger = mockLogger;
         logger.call(request);
-        verify(mockLogger).info("Test Headers" + "Test Body");
+        verify(mockLogger).info("Test log");
     }
 }

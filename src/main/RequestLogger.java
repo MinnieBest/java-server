@@ -16,7 +16,7 @@ public class RequestLogger implements Callable {
     }
 
     public void log(Request request) {
-        String message = request.headerString + request.body;
+        String message = request.log;
         logger.info(message);
     }
 }
