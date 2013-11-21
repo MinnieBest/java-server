@@ -23,12 +23,13 @@ public class RequestHandler implements Callable {
         routes.put("/form", new FormController());
         routes.put("/parameters", new ParamController());
         routes.put("/logs", new LogsController(logs));
-        routes.put("file", new FileController(baseDirectory));
-        routes.put("directory", new DirectoryController(baseDirectory));
+        routes.put("file", new FileController());
+        routes.put("directory", new DirectoryController());
     }
 
     public Response call(Request request) {
         this.request = request;
+        request.baseDirectory = baseDirectory;
         addLog();
         Controller controller = getController();
         if (controller == null) {

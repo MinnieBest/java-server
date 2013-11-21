@@ -17,6 +17,7 @@ public class Request {
     public HashMap<String, Integer> range;
     public HashMap<String, String> params;
     public String log;
+    public String baseDirectory;
 
     public Request(InputStream input) {
         this.reader = getReader(input);

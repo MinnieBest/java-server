@@ -11,12 +11,13 @@ public class DirectoryControllerTest {
 
     public Request request = mock(Request.class);
 
-    public DirectoryController controller = new DirectoryController("resources");
+    public DirectoryController controller = new DirectoryController();
 
     @Before
     public void setup() {
         request.method = "GET";
         request.route = "/test";
+        request.baseDirectory = "resources";
     }
 
     @Test
