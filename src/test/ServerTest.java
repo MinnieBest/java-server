@@ -11,28 +11,35 @@ public class ServerTest {
 
     @Test
     public void initsWithAPort() throws IOException {
-        Server server = new Server(5000);
+        Server server = new Server(5000, mock(Callable.class));
         server.serverSocket.close();
         assertEquals(server.port, 5000);
     }
 
     @Test
+    public void initsWithApp() throws IOException {
+        Server server = new Server(5000, mock(Callable.class));
+        server.serverSocket.close();
+        assertNotNull(server.app);
+    }
+
+    @Test
     public void createsServerSocket() throws IOException {
-        Server server = new Server(5000);
+        Server server = new Server(5000, mock(Callable.class));
         server.serverSocket.close();
         assertEquals(server.serverSocket.getClass(), ServerSocket.class);
     }
 
     @Test
     public void createsSocketHander() throws IOException {
-        Server server = new Server(5000);
+        Server server = new Server(5000, mock(Callable.class));
         server.serverSocket.close();
         assertNotNull(server.makeSocketHandler(new Socket()));
     }
 
     @Test
     public void acceptsOnSocket() throws IOException {
-        Server spyServer = spy(new Server(5000));
+        Server spyServer = spy(new Server(5000, mock(Callable.class)));
         spyServer.serverSocket.close();
         ServerSocket mockServerSocket = mock(ServerSocket.class);
         spyServer.serverSocket = mockServerSocket;
