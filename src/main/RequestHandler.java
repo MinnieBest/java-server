@@ -22,7 +22,7 @@ public class RequestHandler implements Callable {
         routes.put("/input", new InputController());
         routes.put("/form", new FormController());
         routes.put("/parameters", new ParamController());
-        routes.put("/logs", new LogsController(logs));
+        routes.put("/logs", new LogsController());
         routes.put("file", new FileController());
         routes.put("directory", new DirectoryController());
     }
@@ -48,6 +48,7 @@ public class RequestHandler implements Callable {
             logs.removeFirst();
         }
         logs.addLast(entry);
+        request.logs = logs;
     }
 
     public Controller getController() {

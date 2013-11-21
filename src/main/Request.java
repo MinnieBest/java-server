@@ -1,6 +1,7 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.io.*;
 import java.net.URLDecoder;
 
@@ -18,6 +19,7 @@ public class Request {
     public HashMap<String, String> params;
     public String log;
     public String baseDirectory;
+    public LinkedList<String> logs;
 
     public Request(InputStream input) {
         this.reader = getReader(input);
