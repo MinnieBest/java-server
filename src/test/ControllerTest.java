@@ -18,6 +18,34 @@ public class ControllerTest {
     }
 
     @Test
+    public void returnsNotAllowedPost() {
+        request.method = "POST";
+        request.route = "/";
+        assertEquals(405, controller.send(request).status);
+    }
+
+        @Test
+    public void returnsNotAllowedPut() {
+        request.method = "PUT";
+        request.route = "/";
+        assertEquals(405, controller.send(request).status);
+    }
+
+    @Test
+    public void returnsNotAllowedDelete() {
+        request.method = "DELETE";
+        request.route = "/";
+        assertEquals(405, controller.send(request).status);
+    }
+
+    @Test
+    public void returnsNotAllowedHead() {
+        request.method = "HEAD";
+        request.route = "/";
+        assertEquals(405, controller.send(request).status);
+    }
+
+    @Test
     public void returnsOptions() {
         request.method = "OPTIONS";
         request.route = "/";
