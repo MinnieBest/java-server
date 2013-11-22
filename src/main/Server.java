@@ -6,10 +6,12 @@ import java.util.concurrent.Executors;
 public class Server {
 
     public int port;
+    public Callable app;
     public ServerSocket serverSocket;
 
-    public Server(int port) throws IOException {
+    public Server(int port, Callable app) throws IOException {
         this.port = port;
+        this.app = app;
         this.serverSocket = makeServerSocket();
     }
 
@@ -31,7 +33,7 @@ public class Server {
     }
 
     public SocketHandler makeSocketHandler(Socket socket) throws IOException {
-        return new SocketHandler(socket);
+        return new SocketHandler(socket, app);
     }
 
     public Runnable newThread(Socket socket) throws IOException {

@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.DatatypeConverter;
 
@@ -6,17 +5,11 @@ public class LogsController extends Controller {
 
     public static final String AUTH = "admin:hunter2";
 
-    public LinkedList<String> logs;
-
-    public LogsController(LinkedList<String> logs) {
-        this.logs = logs;
-    }
-
     public Response get() {
         Response response = null;
         if (authenticate()) {
             response = new Response(200);
-            response.addBody(new TextBody(logs.toString()));
+            response.addBody(new TextBody(request.logs.toString()));
         }
         else {
             response = new Response(401);

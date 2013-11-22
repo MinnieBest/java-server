@@ -4,12 +4,6 @@ import java.io.File;
 
 public class DirectoryController extends Controller {
 
-    public String baseDirectory;
-
-    public DirectoryController(String directory) {
-        this.baseDirectory = directory;
-    }
-
     public Response get() {
         Response response = new Response(200);
         response.addBody(new TextBody(buildDirectoryContents()));
@@ -17,10 +11,10 @@ public class DirectoryController extends Controller {
     }
 
     public String buildDirectoryContents() {
-        File directory = new File(baseDirectory + request.route);
+        File directory = new File(request.baseDirectory + request.route);
         ArrayList<String> names = new ArrayList<String>(Arrays.asList(directory.list()));
         StringBuilder builder = new StringBuilder();
-        builder.append("<html><h1>" + baseDirectory + request.route + "</h1><ul>");
+        builder.append("<html><h1>" + request.baseDirectory + request.route + "</h1><ul>");
             for(String name : names) {
                 if (request.route.equals("/")) {
                     builder.append("<li><a href='" + name + "'>" + name + "</a></li>");

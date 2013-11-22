@@ -40,6 +40,12 @@ public class FileBodyTest {
     }
 
     @Test
+    public void readsPartialFile() throws IOException {
+        body.setRange(0, 5);
+        assertEquals(5, body.readFile().length);
+    }
+
+    @Test
     public void returnsByteArray() throws IOException {
         assertEquals(new File("resources/test.txt").length(), body.output().length);
     }

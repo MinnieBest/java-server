@@ -22,23 +22,28 @@ public class RequestHandler implements Callable {
         routes.put("/input", new InputController());
         routes.put("/form", new FormController());
         routes.put("/parameters", new ParamController());
-        routes.put("/logs", new LogsController(logs));
-        routes.put("file", new FileController(baseDirectory));
-        routes.put("directory", new DirectoryController(baseDirectory));
+        routes.put("/logs", new LogsController());
+        routes.put("file", new FileController());
+        routes.put("directory", new DirectoryController());
     }
 
     public Response call(Request request) {
         this.request = request;
+        request.baseDirectory = baseDirectory;
         addLog();
         Controller controller = getController();
         if (controller == null) {
-            Response response = new Response(404);
-            response.addBody(new TextBody("<html><h1>404, Not Found</h1></html>"));
-            return response;
+            return notFound();
         }
         else {
             return controller.send(request);
         }
+    }
+
+    public Response notFound() {
+        Response response = new Response(404);
+        response.addBody(new TextBody("<html><h1>404, Not Found</h1></html>"));
+        return response;
     }
 
     public void addLog() {
@@ -47,6 +52,7 @@ public class RequestHandler implements Callable {
             logs.removeFirst();
         }
         logs.addLast(entry);
+        request.logs = logs;
     }
 
     public Controller getController() {

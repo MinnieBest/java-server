@@ -20,7 +20,8 @@ import org.junit.runners.Suite;
   FormControllerTest.class,
   LogsControllerTest.class,
   InputControllerTest.class,
-  HTMLEncoderTest.class
+  HTMLEncoderTest.class,
+  RequestLoggerTest.class
 })
 
 public class AllTests {

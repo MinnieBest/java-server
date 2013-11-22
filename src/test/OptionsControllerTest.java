@@ -34,4 +34,10 @@ public class OptionsControllerTest {
         request.method = "PUT";
         assertEquals(200, controller.send(request).status);
     }
+
+    @Test
+    public void returnsOptionsHead() {
+        request.method = "HEAD";
+        assertEquals(200, controller.send(request).status);
+    }
 }

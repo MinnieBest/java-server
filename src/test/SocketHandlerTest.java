@@ -11,8 +11,8 @@ import static org.mockito.Mockito.*;
 public class SocketHandlerTest {
 
     private Socket mockSocket = mock(Socket.class);
-    private SocketHandler handler = new SocketHandler(mockSocket);
     private Callable mockApp = mock(Callable.class);
+    private SocketHandler handler = new SocketHandler(mockSocket, mockApp);
     private Response response = mock(Response.class);
     private InputStream input = new ByteArrayInputStream("GET / HTTP/1.1\n".getBytes());
     private OutputStream output = mock(ByteArrayOutputStream.class);
@@ -21,8 +21,6 @@ public class SocketHandlerTest {
     public void initialize() throws IOException {
         when(mockSocket.getInputStream()).thenReturn(input);
         when(mockSocket.getOutputStream()).thenReturn(output);
-
-        SocketHandler.app = mockApp;
 
         when(mockApp.call(any(Request.class))).thenReturn(response);
 

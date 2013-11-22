@@ -11,12 +11,13 @@ import static org.mockito.Mockito.*;
 public class LogsControllerTest {
 
     public Request request = mock(Request.class);
-    public LogsController controller = new LogsController(new LinkedList<String>());
+    public LogsController controller = new LogsController();
 
     @Before
     public void setup() {
         request.route = "/logs";
         request.method = "GET";
+        request.logs = new LinkedList<String>();
         request.authorization = new HashMap<String, String>();
     }
 

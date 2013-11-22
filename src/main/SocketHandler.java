@@ -4,10 +4,11 @@ import java.io.*;
 public class SocketHandler implements Runnable {
 
     public Socket socket;
-    public static Callable app;
+    public Callable app;
 
-    public SocketHandler(Socket socket) {
+    public SocketHandler(Socket socket, Callable app) {
         this.socket = socket;
+        this.app = app;
     }
 
     public void run() {
