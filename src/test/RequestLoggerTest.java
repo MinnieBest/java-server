@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.logging.Logger;
@@ -8,11 +9,16 @@ import static org.mockito.Mockito.*;
 @RunWith(JUnit4.class)
 public class RequestLoggerTest {
 
-    private Callable app = mock(RequestHandler.class);
+    private Callable app = mock(Callable.class);
     private Request request = mock(Request.class);
     private Response response = mock(Response.class);
     private Logger mockLogger = mock(Logger.class);
-    private RequestLogger logger = new RequestLogger(app);
+    private RequestLogger logger = new RequestLogger(app, "resources");
+
+    @Before
+    public void setup() {
+        request.route = ("/");
+    }
 
     @Test
     public void initsWithApp() {
