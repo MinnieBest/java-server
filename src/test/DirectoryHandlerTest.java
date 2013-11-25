@@ -30,4 +30,18 @@ public class DirectoryHandlerTest {
         handler.call(request);
         assertThat(handler.buildDirectoryContents(), containsString(">test.txt</a></li>"));
     }
+
+    @Test
+    public void returnsNotAllowed() {
+        request.method = "POST";
+        assertEquals(405, handler.call(request).status);
+    }
+
+    @Test
+    public void callsNextApp() {
+        when(app.call(request)).thenReturn(new Response(200));
+        request.route = "/parameters";
+        handler.call(request);
+        verify(app).call(request);
+    }
 }

@@ -20,6 +20,12 @@ public class FormHandlerTest {
     }
 
     @Test
+    public void returnsNotAllowed() {
+        request.method = "PATCH";
+        assertEquals(405, handler.call(request).status);
+    }
+
+    @Test
     public void createsForm() {
         assertNotNull(handler.form);
     }

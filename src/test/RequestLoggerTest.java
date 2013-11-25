@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.logging.Logger;
+import java.util.HashMap;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -18,6 +19,8 @@ public class RequestLoggerTest {
     @Before
     public void setup() {
         request.route = ("/");
+        request.method = "GET";
+        request.log = "Test";
     }
 
     @Test
@@ -43,5 +46,21 @@ public class RequestLoggerTest {
         RequestLogger.logger = mockLogger;
         logger.call(request);
         verify(mockLogger).info("Test log");
+    }
+
+    @Test
+    public void returnsUnauthorized() {
+        request.route = "/logs";
+        request.authorization = new HashMap<String, String>();
+        request.authorization.put("Basic", "wrong:password");
+        assertEquals(401, logger.call(request).status);
+    }
+
+    @Test
+    public void returnsLogs() {
+        request.route = "/logs";
+        request.authorization = new HashMap<String, String>();
+        request.authorization.put("Basic", "YWRtaW46aHVudGVyMg==\n");
+        assertEquals(200, logger.call(request).status);
     }
 }

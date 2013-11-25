@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.HashMap;
@@ -12,10 +13,15 @@ public class FileHandlerTest {
     public Callable app = mock(Callable.class);
     public FileHandler handler = new FileHandler(app);
 
+    @Before
+    public void setup() {
+        request.route = "/test.txt";
+        request.baseDirectory = "resources";
+        request.method = "GET";
+    }
+
     @Test
     public void returnsFullFile() {
-        request.method = "GET";
-        request.route = "/test.txt";
         request.range = new HashMap<String, Integer>();
         request.baseDirectory = "resources";
         assertEquals(200, handler.call(request).status);
@@ -23,14 +29,25 @@ public class FileHandlerTest {
 
     @Test
     public void returnsPartiaFile() {
-        request.method = "GET";
-        request.route = "/test.txt";
         HashMap<String, Integer> rangeMap = new HashMap<String, Integer>();
-        request.baseDirectory = "resources";
         rangeMap.put("Length", 10);
         rangeMap.put("Start", 0);
         rangeMap.put("Stop", 9);
         request.range = rangeMap;
         assertEquals(206, handler.call(request).status);
+    }
+
+    @Test
+    public void returnsNotAllowed() {
+        request.method = "POST";
+        assertEquals(405, handler.call(request).status);
+    }
+
+    @Test
+    public void callsNextApp() {
+        when(app.call(request)).thenReturn(new Response(200));
+        request.route = "/parameters";
+        handler.call(request);
+        verify(app).call(request);
     }
 }
