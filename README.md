@@ -30,7 +30,8 @@ javac -d bin/test src/test/*
 
 create jar
 
-jar cmvf META-INF:MANIFEST.MF Directory.jar -C bin/main .
+jar cmvf META-INF:MANIFEST.MF directory.jar -C bin/main/ kevin/directory_app -C bin/main/ Main.class server.jar
+jar cvf server.jar -C bin/main/ kevin/server META-INF:mime.types
 
 run tests
 
