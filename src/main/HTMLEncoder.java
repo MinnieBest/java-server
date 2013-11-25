@@ -1,3 +1,5 @@
+package kevin.directory_app;
+
 public class HTMLEncoder {
 
     public static String encode(String input) {

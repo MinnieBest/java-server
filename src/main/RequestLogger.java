@@ -1,7 +1,10 @@
+package kevin.directory_app;
+
 import java.util.logging.Logger;
 import java.util.LinkedList;
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.DatatypeConverter;
+import kevin.server.*;
 
 public class RequestLogger implements Callable {
 

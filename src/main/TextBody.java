@@ -1,3 +1,5 @@
+package kevin.server;
+
 public class TextBody implements HTTPBody {
 
     public String text;

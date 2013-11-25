@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.net.*;
 import java.io.*;
 import static org.mockito.Mockito.*;
+import kevin.server.*;
 
 @RunWith(JUnit4.class)
 public class SocketHandlerTest {

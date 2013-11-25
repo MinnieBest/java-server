@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import java.util.HashMap;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import kevin.server.*;
+import kevin.directory_app.*;
 
 @RunWith(JUnit4.class)
 public class RequestLoggerTest {
@@ -21,6 +23,7 @@ public class RequestLoggerTest {
         request.route = ("/");
         request.method = "GET";
         request.log = "Test";
+        RequestLogger.logger = mockLogger;
     }
 
     @Test
@@ -42,10 +45,8 @@ public class RequestLoggerTest {
 
     @Test
     public void logsRequest() {
-        request.log = "Test log";
-        RequestLogger.logger = mockLogger;
         logger.call(request);
-        verify(mockLogger).info("Test log");
+        verify(mockLogger).info("Test");
     }
 
     @Test

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
 import static org.mockito.Mockito.*;
+import kevin.server.*;
+import kevin.directory_app.*;
 
 @RunWith(JUnit4.class)
 public class InputHandlerTest {

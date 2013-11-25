@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.net.*;
 import static org.mockito.Mockito.*;
+import kevin.server.*;
 
 @RunWith(JUnit4.class)
 public class ServerTest {

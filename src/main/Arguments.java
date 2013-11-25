@@ -1,3 +1,5 @@
+package kevin.directory_app;
+
 import java.util.Arrays;
 
 public class Arguments {

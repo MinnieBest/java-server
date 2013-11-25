@@ -1,20 +1,21 @@
-[EMMA v2.0.5312 report, generated Mon Nov 25 09:34:28 CST 2013]
+[EMMA v2.0.5312 report, generated Mon Nov 25 12:02:58 CST 2013]
 -------------------------------------------------------------------------------
 OVERALL COVERAGE SUMMARY:
 
 [class, %]	[method, %]	[block, %]	[line, %]	[name]
-100% (16/16)	95%  (92/97)	89%  (1644/1839)	89%  (354.2/399)	all classes
+100% (17/17)	94%  (99/105)	89%  (1768/1978)	89%  (386.2/436)	all classes
 
 OVERALL STATS SUMMARY:
 
-total packages:	1
-total classes:	16
-total methods:	97
-total executable files:	16
-total executable lines:	399
+total packages:	2
+total classes:	17
+total methods:	105
+total executable files:	17
+total executable lines:	436
 
 COVERAGE BREAKDOWN BY PACKAGE:
 
 [class, %]	[method, %]	[block, %]	[line, %]	[name]
-100% (16/16)	95%  (92/97)	89%  (1644/1839)	89%  (354.2/399)	default package
+100% (11/11)	91%  (60/66)	88%  (1044/1182)	89%  (217.6/244)	kevin.directory_app
+100% (6/6)	100% (39/39)	91%  (724/796)	88%  (168.7/192)	kevin.server
 -------------------------------------------------------------------------------
